@@ -1,0 +1,56 @@
+.fuente { 
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    background: linear-gradient(106.49deg,#6d56c9,#326ee3 100.1%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+}
+
+.italic{
+    margin: 0px 40px 35px 40px;
+    font-size: 1rem;
+    text-align: justify;
+}
+
+.card {
+    width: 40%;
+    height: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 16px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+.buttonStyle{
+    background-image: linear-gradient(to right,#6d56c9,#326ee3 100%);
+  color: white;
+  font-weight: 'bold';
+}
+
+@media (max-width:780px){
+  .card{
+    font-size: 0.8rem;
+    height: 80%;
+    padding: 5px;
+    width: 70%;
+    margin-top: 50px;
+  }
+}
+@media (max-width:375px){
+  .italic{
+    font-size: 0.8rem;
+    margin: 0;
+    padding: 16px;
+  }
+  .card{
+    font-size: 0.8rem;
+    text-align: center;
+    margin-top: 50px;
+  }
+}
