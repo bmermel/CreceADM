@@ -1,31 +1,40 @@
 package com.crece.crece.model;
 
-import com.crece.crece.model.enums.TipoUsuario;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.Columns;
 
+import lombok.*;
 import javax.persistence.*;
 
 @Entity
 @Data
-@Getter
-@Setter
 @AllArgsConstructor
-@Table(name = "usuarios")
+@NoArgsConstructor
+@Table(name = "usuario")
 public class Usuario {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "nombre", nullable = false)
     private String nombre;
+
+    @Column(name = "apellido", nullable = false)
     private String apellido;
+
+    @Column(name = "email", nullable = false)
     private String email;
 
-    //cambiar a TipoDeUsuario
-    private String rol;
-    @JoinColumn(name = "edificios_id")
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @JoinColumn(name = "tipoUsuario_id")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private TipoUsuario tipoUsuario;
+
+    @JoinColumn(name = "rolUsuario_id")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private RolUsuario rolUsuario;
+
+    @JoinColumn(name = "edificio_id")
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Edificio edificio;
 

@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/edificios")
+@RequestMapping("/edificio")
 public class EdificioController {
     @Autowired
     EdificioService edificioService;
@@ -16,7 +16,7 @@ public class EdificioController {
     @PostMapping()
     public ResponseEntity<?> crearEdificio(@RequestBody EdificioDTO edificioDTO){
         edificioService.crearEdificio(edificioDTO);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")

@@ -1,10 +1,7 @@
 package com.crece.crece.model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,19 +11,28 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-@Table(name = "edificios")
-
+@NoArgsConstructor
+@Table(name = "edificio")
 public class Edificio {
 
     @Id
-    @GeneratedValue
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "nombre", nullable = false)
     private String nombre;
+
+    @Column(name = "direccion", nullable = false)
     private String direccion;
-    @Column(name = "razonSocial")
+
+
+    @Column(name = "razonSocial", nullable = false)
     private String razonSocial;
+
+    @Column(name = "cuit", nullable = false)
     private int cuit;
+
+
     @OneToMany (mappedBy = "edificio")
     private List<Usuario> usuarios;
 }

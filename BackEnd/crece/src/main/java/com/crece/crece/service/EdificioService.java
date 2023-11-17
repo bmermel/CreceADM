@@ -2,7 +2,9 @@ package com.crece.crece.service;
 
 import com.crece.crece.model.Edificio;
 
+import com.crece.crece.model.TipoUsuario;
 import com.crece.crece.model.dto.EdificioDTO;
+import com.crece.crece.model.dto.TipoUsuarioDto;
 import com.crece.crece.repository.IEdificioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,4 +44,7 @@ public class EdificioService {
     public void eliminarEdificio(Long id) {
         edificioRepository.deleteById(id);
 }
+    public Edificio convertirDtoAClase(EdificioDTO edificioDTO){
+        return mapper.convertValue(edificioDTO, Edificio.class);
+    }
 }

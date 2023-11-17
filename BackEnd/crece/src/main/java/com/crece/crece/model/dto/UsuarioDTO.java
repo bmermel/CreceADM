@@ -1,18 +1,23 @@
 package com.crece.crece.model.dto;
 
 import com.crece.crece.model.Edificio;
-import lombok.Getter;
-import lombok.Setter;
+import com.crece.crece.model.RolUsuario;
+import com.crece.crece.model.TipoUsuario;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UsuarioDTO {
-    private Long id;
     private String nombre;
     private String apellido;
     private String email;
-    private String rol;
-    private Edificio edificio;
+    private String password;
+    private Long idRolUsuario;
+    private Long idEdificio;
+    private Long idTipoUsuario;
 
 
 }
