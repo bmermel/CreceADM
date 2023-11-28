@@ -1,6 +1,7 @@
 package com.crece.crece.model;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,6 +32,7 @@ public class Usuario implements UserDetails {
     private String email;
 
     @Column(name = "password", nullable = false)
+    @JsonProperty
     private String password;
 
     @JoinColumn(name = "tipoUsuario_id")

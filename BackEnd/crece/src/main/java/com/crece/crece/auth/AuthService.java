@@ -39,12 +39,7 @@ public class AuthService {
     private final PasswordEncoder encoder;
     @Autowired
     private final AuthenticationManager authenticationManager;
-    @Autowired
-     private final EdificioService edificioService;
-    @Autowired
-    private final TipoUsuarioService tipoUsuarioService;
-    @Autowired
-    private final RolUsuarioService rolUsuarioService;
+
 
     public AuthResponse login(LoginRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
@@ -60,21 +55,19 @@ public class AuthService {
     }
 
     public AuthResponse register(RegisterRequest request) {
+        String encryptedPassword = encoder.encode(request.password);
+
         UsuarioDTO usuarioDTO = UsuarioDTO.builder()
                 .nombre(request.nombre)
                 .apellido(request.apellido)
                 .email(request.email)
-                .password(encoder.encode(request.password))
+                .password(encryptedPassword)
                 .idEdificio(request.idEdificio)
                 .idRolUsuario(request.idRolUsuario)
                 .idTipoUsuario(request.idTipoUsuario)
                 .build();
-
-
         usuarioService.guardarUsuario(usuarioDTO);
-
         UserDetails user = mapper.convertValue(usuarioDTO, Usuario.class);
-
         return AuthResponse.builder()
                 .token(jwtService.getToken(user))
                 .build();

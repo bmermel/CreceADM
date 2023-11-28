@@ -31,6 +31,8 @@ public class UsuarioService {
     private ITipoUsuarioRepository tipoUsuarioRepository;
     @Autowired
     private ObjectMapper mapper;
+    @Autowired
+    private PasswordEncoder encoder;
 
 
     @Autowired
@@ -52,7 +54,6 @@ public class UsuarioService {
             usuario.setTipoUsuario(tipoUsuario);
             usuario.setRolUsuario(rol);
             usuario.setEdificio(edificio);
-
 
             // Log para verificar el valor del ID antes de guardar
             System.out.println("ID antes de guardar: " + usuario.getId());

@@ -3,10 +3,12 @@ package com.crece.crece.auth;
 import com.crece.crece.model.Edificio;
 import com.crece.crece.model.RolUsuario;
 import com.crece.crece.model.TipoUsuario;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Data
 @Builder
@@ -20,4 +22,9 @@ public class RegisterRequest {
      Long idRolUsuario;
      Long idEdificio;
      Long idTipoUsuario;
+
+     @JsonProperty
+     public String getPassword(){
+     return password;
+     }
 }

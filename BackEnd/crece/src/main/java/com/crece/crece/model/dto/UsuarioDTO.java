@@ -4,6 +4,7 @@ import com.crece.crece.model.Edificio;
 import com.crece.crece.model.RolUsuario;
 import com.crece.crece.model.TipoUsuario;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Data
@@ -15,6 +16,7 @@ public class UsuarioDTO {
     private String nombre;
     private String apellido;
     private String email;
+    @JsonProperty
     private String password;
     private Long idRolUsuario;
     private Long idEdificio;
