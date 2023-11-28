@@ -2,7 +2,7 @@ package com.crece.crece.model;
 
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Data
