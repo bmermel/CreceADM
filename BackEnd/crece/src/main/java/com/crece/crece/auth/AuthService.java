@@ -1,9 +1,18 @@
 package com.crece.crece.auth;
 
 import com.crece.crece.jwt.JwtService;
+import com.crece.crece.model.Edificio;
+import com.crece.crece.model.RolUsuario;
+import com.crece.crece.model.TipoUsuario;
 import com.crece.crece.model.Usuario;
+import com.crece.crece.model.dto.EdificioDTO;
+import com.crece.crece.model.dto.RolUsuarioDto;
+import com.crece.crece.model.dto.TipoUsuarioDto;
 import com.crece.crece.model.dto.UsuarioDTO;
 import com.crece.crece.repository.IUsuarioRepository;
+import com.crece.crece.service.EdificioService;
+import com.crece.crece.service.RolUsuarioService;
+import com.crece.crece.service.TipoUsuarioService;
 import com.crece.crece.service.UsuarioService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +39,12 @@ public class AuthService {
     private final PasswordEncoder encoder;
     @Autowired
     private final AuthenticationManager authenticationManager;
+    @Autowired
+     private final EdificioService edificioService;
+    @Autowired
+    private final TipoUsuarioService tipoUsuarioService;
+    @Autowired
+    private final RolUsuarioService rolUsuarioService;
 
     public AuthResponse login(LoginRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
@@ -55,10 +70,13 @@ public class AuthService {
                 .idTipoUsuario(request.idTipoUsuario)
                 .build();
 
+
         usuarioService.guardarUsuario(usuarioDTO);
 
+        UserDetails user = mapper.convertValue(usuarioDTO, Usuario.class);
+
         return AuthResponse.builder()
-                .token(jwtService.getToken(mapper.convertValue(usuarioDTO, Usuario.class)))
+                .token(jwtService.getToken(user))
                 .build();
     }
 
