@@ -1,15 +1,18 @@
 package com.crece.crece.model;
 
 import com.crece.crece.model.enums.Roles;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.*;
 
 import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "rolUsuario")
@@ -22,6 +25,7 @@ public class RolUsuario {
     @Enumerated(EnumType.STRING)
     private Roles rol;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "rolUsuario")
     private List<Usuario> usuarios;
 }

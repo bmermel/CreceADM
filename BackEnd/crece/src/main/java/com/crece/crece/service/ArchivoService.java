@@ -4,12 +4,15 @@ import com.crece.crece.model.Archivo;
 import com.crece.crece.repository.ArchivoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -26,9 +29,10 @@ public class ArchivoService{
 
     public String uploadImageToFileSystem(MultipartFile file) throws IOException {
         String filePath=FOLDER_PATH+file.getOriginalFilename();
+        LocalDateTime today = LocalDateTime.now();
 
         Archivo fileData=fileDataRepository.save(Archivo.builder()
-                .name(file.getOriginalFilename())
+                .name(StringUtils.replace(today.toString(), ":","-") + "-"+ file.getOriginalFilename())
                 .type(file.getContentType())
                 .filePath(filePath).build());
 

@@ -1,17 +1,17 @@
 package com.crece.crece.model;
 
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Data
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "edificio")
 public class Edificio {
 
@@ -33,6 +33,7 @@ public class Edificio {
     private int cuit;
 
 
+    @JsonIgnore
     @OneToMany (mappedBy = "edificio")
     private List<Usuario> usuarios;
 }

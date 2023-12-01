@@ -19,5 +19,6 @@ public class Archivo {
     private String name;
     private String type;
     private String filePath;
+
 }
 

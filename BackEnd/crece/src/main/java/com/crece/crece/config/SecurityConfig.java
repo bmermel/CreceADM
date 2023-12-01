@@ -27,9 +27,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authRequest ->
                         //cambiar los permisos mas adelante
-                        authRequest.requestMatchers("/auth/**").permitAll()
-                                .anyRequest().authenticated())
-                .sessionManagement(sessionManager -> sessionManager
+                        authRequest.requestMatchers("/**").permitAll()
+                                //.anyRequest().authenticated())
+                )                .sessionManagement(sessionManager -> sessionManager
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider((authProvider))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class )

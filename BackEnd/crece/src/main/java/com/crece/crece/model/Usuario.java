@@ -1,7 +1,7 @@
 package com.crece.crece.model;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,10 +12,11 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "usuario", uniqueConstraints = @UniqueConstraint(columnNames = {"email"}))
 public class Usuario implements UserDetails {
     @Id

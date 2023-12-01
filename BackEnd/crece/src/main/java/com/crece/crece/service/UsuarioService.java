@@ -5,6 +5,7 @@ import com.crece.crece.model.Edificio;
 import com.crece.crece.model.RolUsuario;
 import com.crece.crece.model.TipoUsuario;
 import com.crece.crece.model.Usuario;
+import com.crece.crece.model.dto.GetUsuarioDTO;
 import com.crece.crece.model.dto.UsuarioDTO;
 import com.crece.crece.repository.IEdificioRepository;
 import com.crece.crece.repository.IRolUsuarioRepository;
@@ -15,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,15 +58,11 @@ public class UsuarioService {
             usuario.setRolUsuario(rol);
             usuario.setEdificio(edificio);
 
-            // Log para verificar el valor del ID antes de guardar
-            System.out.println("ID antes de guardar: " + usuario.getId());
-
 
 
             usuarioRepository.save(usuario);
+            System.out.println(usuario);
 
-            // Log para verificar el valor del ID después de guardar
-            System.out.println("ID después de guardar: " + usuario.getId());
         }
     }
 
@@ -91,7 +90,21 @@ public class UsuarioService {
     public Usuario convertirDtoAUsuario(UsuarioDTO usuarioDTO){
         return mapper.convertValue(usuarioDTO, Usuario.class);
     }
-    public List<Usuario> getUsuarios (){
-        return usuarioRepository.findAll();
-    }
+    public List<GetUsuarioDTO> getUsuarios() {
+
+        List<Usuario> usuarioList = usuarioRepository.findAll();
+        List<GetUsuarioDTO> usuarioDTOList = new ArrayList<>();
+
+        for (Usuario usuario : usuarioList) {
+            GetUsuarioDTO user = mapper.convertValue(usuario, GetUsuarioDTO.class);
+
+            user.setRolUsuario(usuario.getRolUsuario());
+            user.setTipoUsuario(usuario.getTipoUsuario());
+            user.setEdificio(usuario.getEdificio());
+            usuarioDTOList.add(user);
+        }
+
+        return usuarioDTOList;
+}
+
 }
