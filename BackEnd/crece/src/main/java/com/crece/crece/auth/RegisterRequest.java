@@ -23,7 +23,7 @@ public class RegisterRequest {
      Long idEdificio;
      Long idTipoUsuario;
 
-     @JsonProperty
+     @JsonProperty()
      public String getPassword(){
      return password;
      }
