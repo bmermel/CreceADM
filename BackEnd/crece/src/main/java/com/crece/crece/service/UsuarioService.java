@@ -5,6 +5,7 @@ import com.crece.crece.model.Edificio;
 import com.crece.crece.model.RolUsuario;
 import com.crece.crece.model.TipoUsuario;
 import com.crece.crece.model.Usuario;
+import com.crece.crece.model.dto.ActualizarUsuarioDTO;
 import com.crece.crece.model.dto.GetUsuarioDTO;
 import com.crece.crece.model.dto.UsuarioDTO;
 import com.crece.crece.repository.IEdificioRepository;
@@ -79,17 +80,14 @@ public class UsuarioService {
     }
 
 
-    public void modificarUsuario(UsuarioDTO usuarioDTO) {
-        guardarUsuario(usuarioDTO);
+    public void modificarUsuario(ActualizarUsuarioDTO actualizarUsuarioDTO) {
+        guardarUsuario(mapper.convertValue(actualizarUsuarioDTO, UsuarioDTO.class));
     }
 
     public void eliminarUsuario(Long id) {
         usuarioRepository.deleteById(id);
 }
 
-    public Usuario convertirDtoAUsuario(UsuarioDTO usuarioDTO){
-        return mapper.convertValue(usuarioDTO, Usuario.class);
-    }
     public List<GetUsuarioDTO> getUsuarios() {
 
         List<Usuario> usuarioList = usuarioRepository.findAll();

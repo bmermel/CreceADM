@@ -1,13 +1,12 @@
 package com.crece.crece.controller;
 
+import com.crece.crece.model.Usuario;
+import com.crece.crece.model.dto.ActualizarUsuarioDTO;
 import com.crece.crece.model.dto.GetUsuarioDTO;
 import com.crece.crece.model.dto.UsuarioDTO;
 import com.crece.crece.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,5 +20,14 @@ public class UsuarioController {
     @GetMapping("/all")
     public List<GetUsuarioDTO> getUsuarios(){
         return usuarioService.getUsuarios();
+    }
+
+    @PutMapping("/{id}")
+    public void modificarUsuario(@PathVariable Long id, @RequestBody ActualizarUsuarioDTO actualizarUsuarioDTO){
+        UsuarioDTO user = usuarioService.leerUsuario(id);
+
+        if(user != null){
+            usuarioService.modificarUsuario(actualizarUsuarioDTO);
+        }
     }
 }

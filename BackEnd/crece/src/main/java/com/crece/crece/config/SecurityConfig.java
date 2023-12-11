@@ -27,8 +27,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authRequest ->
                         //cambiar los permisos mas adelante
-                        authRequest.requestMatchers("/**").permitAll()
-                                //.anyRequest().authenticated())
+                        authRequest.requestMatchers("/auth/**").permitAll()
+                                .anyRequest().authenticated()
                 )                .sessionManagement(sessionManager -> sessionManager
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider((authProvider))
