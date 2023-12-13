@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+
 @RestController
 @RequestMapping("/file")
 public class ArchivoController {
@@ -19,10 +20,10 @@ public class ArchivoController {
     @Autowired
     private ArchivoService service;
 
-
-    @PostMapping("/fileSystem")
-    public ResponseEntity<?> uploadImageToFIleSystem(@RequestParam("image")MultipartFile file) throws IOException {
-        String uploadImage = service.uploadImageToFileSystem(file);
+    @CrossOrigin(origins = "*")
+    @PostMapping("/fileSystem/{edificioId}")
+    public ResponseEntity<?> uploadImageToFIleSystem(@RequestParam("image")MultipartFile file, @PathVariable Long edificioId) throws IOException {
+        String uploadImage = service.uploadImageToFileSystem(file, edificioId);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(uploadImage);
     }

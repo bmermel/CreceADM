@@ -1,8 +1,12 @@
 package com.crece.crece.service;
 
 import com.crece.crece.model.Archivo;
+import com.crece.crece.model.Edificio;
+import com.crece.crece.model.dto.EdificioDTO;
 import com.crece.crece.repository.ArchivoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,18 +27,21 @@ public class ArchivoService{
 
     @Autowired
     private ArchivoRepository fileDataRepository;
-
-    private final String FOLDER_PATH="C:\\Users\\Il Gordo VC\\Desktop\\Proyecto Administracion Crece\\CreceADM-main\\BackEnd\\uploadedFiles\\";
-
-
-    public String uploadImageToFileSystem(MultipartFile file) throws IOException {
-        String filePath=FOLDER_PATH+file.getOriginalFilename();
+    @Autowired
+    private EdificioService edificioService;
+    @Value("file:${user.dir}/uploadedFiles/")  // user.dir representa el directorio de trabajo actual del proyecto
+    private Resource uploadDirectory;
+    public String uploadImageToFileSystem(MultipartFile file, Long edificioId) throws IOException {
+        String filePath=uploadDirectory.getURI().getPath() + file.getOriginalFilename();
         LocalDateTime today = LocalDateTime.now();
+        Edificio edificio = edificioService.leerEdificio(edificioId).orElseThrow(( )->new RuntimeException("No existe el edificio"));
 
         Archivo fileData=fileDataRepository.save(Archivo.builder()
                 .name(StringUtils.replace(today.toString(), ":","-") + "-"+ file.getOriginalFilename())
                 .type(file.getContentType())
-                .filePath(filePath).build());
+                .filePath(filePath)
+                .edificio(edificio)
+                .build());
 
         file.transferTo(new File(filePath));
 

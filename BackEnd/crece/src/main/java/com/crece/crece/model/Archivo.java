@@ -20,5 +20,9 @@ public class Archivo {
     private String type;
     private String filePath;
 
+    @JoinColumn(name = "edificio_id")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private Edificio edificio;
+
 }
 
