@@ -54,6 +54,7 @@ public class AuthService {
 
     }
 
+
     public AuthResponse register(RegisterRequest request) {
         String encryptedPassword = encoder.encode(request.password);
 

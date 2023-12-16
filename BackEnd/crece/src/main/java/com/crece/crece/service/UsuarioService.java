@@ -5,14 +5,13 @@ import com.crece.crece.model.Edificio;
 import com.crece.crece.model.RolUsuario;
 import com.crece.crece.model.TipoUsuario;
 import com.crece.crece.model.Usuario;
-import com.crece.crece.model.dto.ActualizarUsuarioDTO;
-import com.crece.crece.model.dto.GetUsuarioDTO;
-import com.crece.crece.model.dto.UsuarioDTO;
+import com.crece.crece.model.dto.*;
 import com.crece.crece.repository.IEdificioRepository;
 import com.crece.crece.repository.IRolUsuarioRepository;
 import com.crece.crece.repository.ITipoUsuarioRepository;
 import com.crece.crece.repository.IUsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -38,15 +37,7 @@ public class UsuarioService {
     @Autowired
     private PasswordEncoder encoder;
 
-
-    @Autowired
-    public UsuarioService(IUsuarioRepository usuarioRepository, IEdificioRepository edificioRepository, IRolUsuarioRepository rolUsuarioRepository, ITipoUsuarioRepository tipoUsuarioRepository, ObjectMapper mapper) {
-        this.usuarioRepository = usuarioRepository;
-        this.edificioRepository = edificioRepository;
-        this.rolUsuarioRepository = rolUsuarioRepository;
-        this.tipoUsuarioRepository = tipoUsuarioRepository;
-        this.mapper = mapper;
-    }
+    private final Logger log = Logger.getLogger(UsuarioService.class);
 
     public void guardarUsuario(UsuarioDTO usuarioDTO) {
         Usuario usuario = mapper.convertValue(usuarioDTO, Usuario.class);
@@ -59,10 +50,10 @@ public class UsuarioService {
             usuario.setRolUsuario(rol);
             usuario.setEdificio(edificio);
 
-
+            log.info("usuario registrado con exito");
 
             usuarioRepository.save(usuario);
-            System.out.println(usuario);
+
 
         }
     }
@@ -83,6 +74,26 @@ public class UsuarioService {
     public void modificarUsuario(ActualizarUsuarioDTO actualizarUsuarioDTO) {
         guardarUsuario(mapper.convertValue(actualizarUsuarioDTO, UsuarioDTO.class));
     }
+    public UsuarioDashboardDTO getUsuarioByEmail(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // Aquí puedes construir el UsuarioDTO según tus necesidades
+        UsuarioDashboardDTO usuarioDto = new UsuarioDashboardDTO();
+
+
+                usuarioDto.setId(usuario.getId());
+                usuarioDto.setNombre(usuario.getNombre());
+                usuarioDto.setApellido(usuario.getApellido());
+                usuarioDto.setEmail(usuario.getEmail());
+                usuarioDto.setEdificio(usuario.getEdificio());
+
+
+        log.info("en la busqueda para el usuario del dashboard se armo este objeto: " + usuarioDto.toString());
+
+        return usuarioDto;
+    }
+
 
     public void eliminarUsuario(Long id) {
         usuarioRepository.deleteById(id);
