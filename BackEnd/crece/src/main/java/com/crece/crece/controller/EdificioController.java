@@ -39,7 +39,7 @@ public class EdificioController {
         response = ResponseEntity.status(HttpStatus.OK).body("Eliminado");
         return response;
     }
-    @GetMapping
+    @GetMapping()
     public List<GetEdificioListDto> getEdificios () {
         return edificioService.getEdificios();
     }

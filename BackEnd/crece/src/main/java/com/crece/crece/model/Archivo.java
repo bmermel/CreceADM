@@ -4,8 +4,13 @@ import lombok.*;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @Entity
 @Data
+@Getter
+@Setter
 @AllArgsConstructor
 @Table(name = "archivos")
 @NoArgsConstructor
@@ -19,6 +24,8 @@ public class Archivo {
     private String name;
     private String type;
     private String filePath;
+
+    private LocalDate fechaCarga;
 
     @JoinColumn(name = "edificio_id")
     @ManyToOne(cascade = CascadeType.PERSIST)

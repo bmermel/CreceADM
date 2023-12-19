@@ -6,3 +6,9 @@
 [2023-12-16 14:29:41] [ INFO ] [UsuarioService:92] en la busqueda para el usuario del dashboard se armo este objeto: UsuarioDashboardDTO(id=2, nombre=Leonardo, apellido=Spadavecchia, email=leito@gmail.com, edificio=com.crece.crece.model.Edificio@1ec89275)
 [2023-12-16 14:36:46] [ INFO ] [UsuarioService:92] en la busqueda para el usuario del dashboard se armo este objeto: UsuarioDashboardDTO(id=2, nombre=Leonardo, apellido=Spadavecchia, email=leito@gmail.com, edificio=com.crece.crece.model.Edificio@9ef9afa)
 [2023-12-16 14:36:46] [ INFO ] [DashboardController:34] se accedio correctamente al usuario: status: <200 OK OK,UsuarioDashboardDTO(id=2, nombre=Leonardo, apellido=Spadavecchia, email=leito@gmail.com, edificio=com.crece.crece.model.Edificio@9ef9afa),[]> objeto: UsuarioDashboardDTO(id=2, nombre=Leonardo, apellido=Spadavecchia, email=leito@gmail.com, edificio=com.crece.crece.model.Edificio@9ef9afa)
+[2023-12-16 21:10:26] [ INFO ] [UsuarioService:53] usuario registrado con exito
+[2023-12-16 21:11:03] [ INFO ] [UsuarioService:53] usuario registrado con exito
+[2023-12-16 21:19:00] [ INFO ] [UsuarioService:53] usuario registrado con exito
+[2023-12-16 21:19:05] [ INFO ] [UsuarioService:53] usuario registrado con exito
+[2023-12-19 16:35:57] [ INFO ] [UsuarioService:53] usuario registrado con exito
+[2023-12-19 16:36:18] [ INFO ] [UsuarioService:53] usuario registrado con exito

@@ -2,7 +2,9 @@ package com.crece.crece.service;
 
 import com.crece.crece.model.Archivo;
 import com.crece.crece.model.Edificio;
+import com.crece.crece.model.dto.ArchivoDTO;
 import com.crece.crece.model.dto.EdificioDTO;
+import com.crece.crece.model.dto.GetEdificioListDto;
 import com.crece.crece.repository.ArchivoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,6 +43,7 @@ public class ArchivoService{
                 .type(file.getContentType())
                 .filePath(filePath)
                 .edificio(edificio)
+                .fechaCarga(LocalDate.now())
                 .build());
 
         file.transferTo(new File(filePath));
@@ -63,6 +66,31 @@ public class ArchivoService{
             // Puedes lanzar una excepción, loggear un mensaje de error, etc.
             throw new FileNotFoundException("Archivo no encontrado: " + fileName);
         }
+    }
+
+    public List<ArchivoDTO> getAllArchivos() {
+        List<Archivo> archivos = fileDataRepository.findAll();
+        List<ArchivoDTO> archivoDTOs = new ArrayList<>();
+
+        for (Archivo archivo : archivos) {
+            ArchivoDTO archivoDTO = convertirArchivoAArchivoDTO(archivo);
+            archivoDTOs.add(archivoDTO);
+        }
+
+        return archivoDTOs;
+    }
+
+    private ArchivoDTO convertirArchivoAArchivoDTO(Archivo archivo) {
+
+        ArchivoDTO archivoDTO = new ArchivoDTO();
+        archivoDTO.setId(archivo.getId());
+        archivoDTO.setDescripcion(archivo.getName());
+        archivoDTO.setCategoria(archivo.getType());
+        if (archivo.getFechaCarga()!=null){
+        archivoDTO.setFechaDeIngreso(archivo.getFechaCarga().toString());}
+        // ... (otros campos)
+
+        return archivoDTO;
     }
 
     /*public byte[] downloadImageFromFileSystem(String fileName) throws IOException {
