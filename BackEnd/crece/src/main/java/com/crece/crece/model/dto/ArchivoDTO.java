@@ -11,4 +11,5 @@ import lombok.Setter;
         private String descripcion;
         private String fechaDeIngreso;
         private String destinatario;
+        private String filePath;
     }
