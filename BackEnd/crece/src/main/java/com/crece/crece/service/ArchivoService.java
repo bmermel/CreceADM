@@ -3,13 +3,10 @@ package com.crece.crece.service;
 import com.crece.crece.model.Archivo;
 import com.crece.crece.model.Edificio;
 import com.crece.crece.model.dto.ArchivoDTO;
-import com.crece.crece.model.dto.EdificioDTO;
-import com.crece.crece.model.dto.GetEdificioListDto;
 import com.crece.crece.repository.ArchivoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,7 +48,7 @@ public class ArchivoService{
         file.transferTo(new File(filePath));
 
         if (fileData != null) {
-            return "file uploaded successfully : " + filePath;
+            return filePath;
         }
         return null;
     }

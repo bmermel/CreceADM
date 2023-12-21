@@ -27,6 +27,7 @@ public class Archivo {
 
     private LocalDate fechaCarga;
 
+
     @JoinColumn(name = "edificio_id")
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Edificio edificio;

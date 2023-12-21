@@ -2,6 +2,7 @@ package com.crece.crece.service;
 
 
 import com.crece.crece.model.MailStructure;
+import com.crece.crece.model.MailTemplate;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class MailService {
 
     @Autowired
     private JavaMailSender mailSender;
+
 
     @Value("${spring.mail.username}")
     private String fromMail;
@@ -45,13 +47,15 @@ public class MailService {
             FileSystemResource fileSystemResource = new FileSystemResource(new File(file));
             helper.setFrom(fromMail);
             helper.setTo(mail);
-            helper.setText(mailStructure.getMessage());
+            helper.setText(MailTemplate.generateMail(),true);
             helper.setSubject(mailStructure.getSubject());
             helper.addAttachment(Objects.requireNonNull(fileSystemResource.getFilename()),fileSystemResource);
             mailSender.send(mimeMessage);
             System.out.println("mail enviado con attach");
         }
     }
+
+
 
 /*
     @Autowired
