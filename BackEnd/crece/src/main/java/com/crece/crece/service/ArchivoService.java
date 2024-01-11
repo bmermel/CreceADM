@@ -31,7 +31,7 @@ public class ArchivoService{
     private EdificioService edificioService;
     @Value("file:${user.dir}/uploadedFiles/")  // user.dir representa el directorio de trabajo actual del proyecto
     private Resource uploadDirectory;
-    public String uploadImageToFileSystem(MultipartFile file, Long edificioId, String categoria) throws IOException {
+    public String uploadImageToFileSystem(MultipartFile file, Long edificioId, String categoria, String destinatario) throws IOException {
         String filePath=System.getProperty("user.dir") + File.separator + file.getOriginalFilename();
         LocalDateTime today = LocalDateTime.now();
         Edificio edificio = edificioService.leerEdificio(edificioId).orElseThrow(( )->new RuntimeException("No existe el edificio"));
@@ -42,6 +42,7 @@ public class ArchivoService{
                 .filePath(filePath)
                 .edificio(edificio)
                 .fechaCarga(LocalDate.now())
+                .destinatario(destinatario)
 
                 .build());
 
@@ -129,5 +130,33 @@ public class ArchivoService{
         } else {
             throw new RuntimeException("No encontré el archivo, loro.");
         }
+    }
+    public List<ArchivoDTO> getArchivosPorEdificio(Long edificioId) {
+        List<Archivo> archivos = fileDataRepository.findByEdificio_Id(edificioId);
+        return convertirArchivosAArchivosDTO(archivos);
+    }
+
+    public List<ArchivoDTO> getArchivosPorCategoria(String categoria) {
+        List<Archivo> archivos = fileDataRepository.findByType(categoria);
+        return convertirArchivosAArchivosDTO(archivos);
+    }
+
+    public List<ArchivoDTO> getArchivosPorNombre(String nombre) {
+        List<Archivo> archivos = fileDataRepository.findByNameContainingIgnoreCase(nombre);
+        return convertirArchivosAArchivosDTO(archivos);
+    }
+
+    public List<ArchivoDTO> getArchivosOrdenadosPorFecha() {
+        List<Archivo> archivos = fileDataRepository.findAllByOrderByFechaCargaDesc();
+        return convertirArchivosAArchivosDTO(archivos);
+    }
+
+    private List<ArchivoDTO> convertirArchivosAArchivosDTO(List<Archivo> archivos) {
+        List<ArchivoDTO> archivoDTOs = new ArrayList<>();
+        for (Archivo archivo : archivos) {
+            ArchivoDTO archivoDTO = convertirArchivoAArchivoDTO(archivo);
+            archivoDTOs.add(archivoDTO);
+        }
+        return archivoDTOs;
     }
 }

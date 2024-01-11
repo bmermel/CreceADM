@@ -2,6 +2,7 @@ package com.crece.crece.config;
 
 import com.crece.crece.repository.IUsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,11 @@ public class ApplicationConfig {
     @Autowired
     private final IUsuarioRepository usuarioRepository;
 
+//ESTO LO ESTOY USANDO (MODEL MAPPER, VER SI BORRAR PONER EN OTRO LADO)
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();

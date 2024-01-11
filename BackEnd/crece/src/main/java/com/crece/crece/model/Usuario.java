@@ -36,6 +36,8 @@ public class Usuario implements UserDetails {
     @JsonProperty
     private String password;
 
+    private Boolean habilitado = false;
+
     @JoinColumn(name = "tipoUsuario_id")
     @ManyToOne(cascade = CascadeType.PERSIST)
     private TipoUsuario tipoUsuario;
@@ -75,6 +77,10 @@ public class Usuario implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return habilitado;
     }
+    public void changeUserStatus() {
+        habilitado = !habilitado;
+    }
+
 }

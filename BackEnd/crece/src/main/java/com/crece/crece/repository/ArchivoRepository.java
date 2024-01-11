@@ -15,4 +15,9 @@ public interface ArchivoRepository extends JpaRepository<Archivo, Long> {
     void deleteById(Long id);
 
 
+    List<Archivo> findByNameContainingIgnoreCase(String nombre);
+
+    List<Archivo> findByType(String categoria);
+
+    List<Archivo> findByEdificio_Id(Long edificioId);
 }

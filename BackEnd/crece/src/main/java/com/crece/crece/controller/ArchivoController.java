@@ -2,10 +2,14 @@ package com.crece.crece.controller;
 
 import com.crece.crece.model.Archivo;
 import com.crece.crece.model.MailStructure;
+import com.crece.crece.model.Usuario;
 import com.crece.crece.model.dto.ArchivoDTO;
 import com.crece.crece.model.dto.GetEdificioListDto;
+import com.crece.crece.model.dto.GetUsuarioDTO;
 import com.crece.crece.service.ArchivoService;
+import com.crece.crece.service.EdificioService;
 import com.crece.crece.service.MailService;
+import com.crece.crece.service.UsuarioService;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -27,16 +31,19 @@ public class ArchivoController {
 
     @Autowired
     private ArchivoService service;
+
     @Autowired
     private MailService mailService;
-
+    @Autowired
+    private UsuarioService usuarioService;
 
     @CrossOrigin(origins = "*")
-    @PostMapping("/fileSystem/{edificioId}/{categoria}")
+    @PostMapping("/fileSystem/{edificioId}/{categoria}/{destinatario}")
     public ResponseEntity<?> uploadImageToFIleSystem(@RequestParam("image") MultipartFile file,
                                                      @PathVariable Long edificioId,
-                                                     @PathVariable String categoria) throws IOException {
-        String uploadedFile = service.uploadImageToFileSystem(file, edificioId, categoria);
+                                                     @PathVariable String categoria,
+                                                     @PathVariable String destinatario) throws IOException {
+        String uploadedFile = service.uploadImageToFileSystem(file, edificioId, categoria,destinatario);
 
         // Crear un objeto MailStructure
         MailStructure mailStructure = new MailStructure();
@@ -44,7 +51,7 @@ public class ArchivoController {
         mailStructure.setMessage("Mensaje del correo");
 
         // Supongamos también que tienes una lista de destinatarios (mails)
-        List<String> mails = Arrays.asList("bmermel@gmail.com", "penagonza@hotmail.com","leonardo.spadavecchia@hotmail.com");
+        List<String> mails = usuarioService.getEmailsPorEdificio(edificioId);
 
         // Ahora puedes llamar al método sendMailAttach de mailService
         try {
@@ -90,6 +97,30 @@ public class ArchivoController {
         service.borrarArchivo(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body("Archivo borrado");
+    }
+
+    @GetMapping("/fileSystem/archivosPorEdificio/{edificioId}")
+    public ResponseEntity<?> getArchivosPorEdificio(@PathVariable Long edificioId) {
+        List<ArchivoDTO> archivos = service.getArchivosPorEdificio(edificioId);
+        return ResponseEntity.status(HttpStatus.OK).body(archivos);
+    }
+
+    @GetMapping("/fileSystem/archivosPorCategoria/{categoria}")
+    public ResponseEntity<?> getArchivosPorCategoria(@PathVariable String categoria) {
+        List<ArchivoDTO> archivos = service.getArchivosPorCategoria(categoria);
+        return ResponseEntity.status(HttpStatus.OK).body(archivos);
+    }
+
+    @GetMapping("/fileSystem/archivosPorNombre/{nombre}")
+    public ResponseEntity<?> getArchivosPorNombre(@PathVariable String nombre) {
+        List<ArchivoDTO> archivos = service.getArchivosPorNombre(nombre);
+        return ResponseEntity.status(HttpStatus.OK).body(archivos);
+    }
+
+    @GetMapping("/fileSystem/archivosOrdenadosPorFecha")
+    public ResponseEntity<?> getArchivosOrdenadosPorFecha() {
+        List<ArchivoDTO> archivos = service.getArchivosOrdenadosPorFecha();
+        return ResponseEntity.status(HttpStatus.OK).body(archivos);
     }
 
 }

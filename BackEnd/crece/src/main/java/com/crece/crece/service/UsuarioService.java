@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -110,10 +111,18 @@ public class UsuarioService {
             user.setRolUsuario(usuario.getRolUsuario());
             user.setTipoUsuario(usuario.getTipoUsuario());
             user.setEdificio(usuario.getEdificio());
+            user.setEmail(usuario.getEmail());
             usuarioDTOList.add(user);
         }
 
         return usuarioDTOList;
 }
+    public List<String> getEmailsPorEdificio(Long edificioId) {
+        List<Usuario> usuariosPorEdificio = usuarioRepository.findByEdificioId(edificioId);
+        List<String> emails = usuariosPorEdificio.stream()
+                .map(Usuario::getEmail)
+                .collect(Collectors.toList());
+        return emails;
+    }
 
 }

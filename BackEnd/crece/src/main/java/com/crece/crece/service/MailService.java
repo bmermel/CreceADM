@@ -52,6 +52,7 @@ public class MailService {
             helper.addAttachment(Objects.requireNonNull(fileSystemResource.getFilename()),fileSystemResource);
             mailSender.send(mimeMessage);
             System.out.println("mail enviado con attach");
+
         }
     }
 
