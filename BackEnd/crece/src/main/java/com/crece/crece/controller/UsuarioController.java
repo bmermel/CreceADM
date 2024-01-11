@@ -36,9 +36,22 @@ public class UsuarioController {
             usuarioService.modificarUsuario(actualizarUsuarioDTO);
         }
     }
-    @GetMapping("/emailsPorEdificio/{edificioId}")
-    public ResponseEntity<List<String>> obtenerEmailsPorEdificio(@PathVariable Long edificioId) {
-        List<String> emails = usuarioService.getEmailsPorEdificio(edificioId);
+    @GetMapping("/emailsPorEdificio/{edificioId}/{destinatario}")
+    public ResponseEntity<List<String>> obtenerEmailsPorEdificio(@PathVariable Long edificioId,
+                                                                 @PathVariable String destinatario) {
+        List<String> emails = usuarioService.getEmailsPorEdificio(edificioId,destinatario);
         return ResponseEntity.status(HttpStatus.OK).body(emails);
+    }
+
+    @PatchMapping("/{id}/cambiar-estado")
+    public ResponseEntity<String> cambiarEstadoUsuario(@PathVariable Long idUsuario) {
+
+        try {
+            usuarioService.cambiarEstadoUsuario(idUsuario);
+            return ResponseEntity.ok("Estado del usuario cambiado exitosamente.");
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }

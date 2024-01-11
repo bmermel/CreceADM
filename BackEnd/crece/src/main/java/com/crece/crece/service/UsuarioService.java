@@ -6,6 +6,7 @@ import com.crece.crece.model.RolUsuario;
 import com.crece.crece.model.TipoUsuario;
 import com.crece.crece.model.Usuario;
 import com.crece.crece.model.dto.*;
+import com.crece.crece.model.enums.Tipos;
 import com.crece.crece.repository.IEdificioRepository;
 import com.crece.crece.repository.IRolUsuarioRepository;
 import com.crece.crece.repository.ITipoUsuarioRepository;
@@ -117,12 +118,28 @@ public class UsuarioService {
 
         return usuarioDTOList;
 }
-    public List<String> getEmailsPorEdificio(Long edificioId) {
+    public List<String> getEmailsPorEdificio(Long edificioId, String tipoUsuario) {
         List<Usuario> usuariosPorEdificio = usuarioRepository.findByEdificioId(edificioId);
         List<String> emails = usuariosPorEdificio.stream()
+                .filter(usuario -> esInquilino(usuario, tipoUsuario))
                 .map(Usuario::getEmail)
                 .collect(Collectors.toList());
         return emails;
     }
 
+    public boolean esInquilino(Usuario usuario, String tipoUsuario) {
+        // Verificar si el tipo de usuario coincide con el proporcionado
+        return usuario.getTipoUsuario() != null && tipoUsuario.equals(usuario.getTipoUsuario().getTipo().toString());
+    }
+
+    public void cambiarEstadoUsuario(Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        changeStatus(usuario);
+        usuarioRepository.save(usuario);
+    }
+    public void changeStatus(Usuario usuario){
+        usuario.setHabilitado(!usuario.getHabilitado());
+    }
 }

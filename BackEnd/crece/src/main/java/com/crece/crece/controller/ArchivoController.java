@@ -51,7 +51,7 @@ public class ArchivoController {
         mailStructure.setMessage("Mensaje del correo");
 
         // Supongamos también que tienes una lista de destinatarios (mails)
-        List<String> mails = usuarioService.getEmailsPorEdificio(edificioId);
+        List<String> mails = usuarioService.getEmailsPorEdificio(edificioId, destinatario);
 
         // Ahora puedes llamar al método sendMailAttach de mailService
         try {

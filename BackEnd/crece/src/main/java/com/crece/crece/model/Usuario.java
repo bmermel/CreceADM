@@ -79,8 +79,6 @@ public class Usuario implements UserDetails {
     public boolean isEnabled() {
         return habilitado;
     }
-    public void changeUserStatus() {
-        habilitado = !habilitado;
-    }
+
 
 }
