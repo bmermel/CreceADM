@@ -29,12 +29,24 @@ public class ArchivoService{
     private ArchivoRepository fileDataRepository;
     @Autowired
     private EdificioService edificioService;
-    @Value("file:${user.dir}/uploadedFiles/")  // user.dir representa el directorio de trabajo actual del proyecto
-    private Resource uploadDirectory;
+    /*@Value("file:${user.dir}/uploadedFiles/")  // user.dir representa el directorio de trabajo actual del proyecto
+    private Resource uploadDirectory;*/
+
+    @Value("${file.upload-directory}")
+    private String uploadDirectoryPath;
     public String uploadImageToFileSystem(MultipartFile file, Long edificioId, String categoria, String destinatario) throws IOException {
-        String filePath=System.getProperty("user.dir") + File.separator + file.getOriginalFilename();
+        //String filePath=System.getProperty("user.dir") + File.separator + file.getOriginalFilename();
+        String userHome = System.getProperty("user.home");
+        /*String filePath = userHome + File.separator + "uploadedFiles" + File.separator + file.getOriginalFilename();*/
+        String filePath = uploadDirectoryPath + File.separator + file.getOriginalFilename();
         LocalDateTime today = LocalDateTime.now();
         Edificio edificio = edificioService.leerEdificio(edificioId).orElseThrow(( )->new RuntimeException("No existe el edificio"));
+
+        // Crear la carpeta de almacenamiento si no existe
+        File uploadDirectory = new File(uploadDirectoryPath);
+        if (!uploadDirectory.exists()) {
+            uploadDirectory.mkdirs();
+        }
 
         Archivo fileData=fileDataRepository.save(Archivo.builder()
                 .name(StringUtils.replace(today.toString(), ":","-") + "-"+ file.getOriginalFilename())
@@ -42,7 +54,7 @@ public class ArchivoService{
                 .filePath(filePath)
                 .edificio(edificio)
                 .fechaCarga(LocalDate.now())
-                .destinatario(destinatario)
+                .destinatario(destinatario.toUpperCase())
 
                 .build());
 

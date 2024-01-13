@@ -6,12 +6,14 @@ import com.crece.crece.model.dto.NovedadesDTO;
 import com.crece.crece.service.EdificioService;
 import com.crece.crece.service.NovedadesService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -26,7 +28,7 @@ public class NovedadesController {
     private ObjectMapper mapper;
 
     @PostMapping()
-    public ResponseEntity<?> crearNovedad(@RequestBody NovedadesDTO novedadesDTO){
+    public ResponseEntity<?> crearNovedad(@RequestBody NovedadesDTO novedadesDTO) throws MessagingException, UnsupportedEncodingException {
         service.guardarNovedad(novedadesDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

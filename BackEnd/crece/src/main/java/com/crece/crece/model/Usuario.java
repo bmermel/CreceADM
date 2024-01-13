@@ -36,6 +36,8 @@ public class Usuario implements UserDetails {
     @JsonProperty
     private String password;
 
+    @Column(name = "Habilitado", nullable = false)
+
     private Boolean habilitado = false;
 
     @JoinColumn(name = "tipoUsuario_id")
@@ -78,6 +80,7 @@ public class Usuario implements UserDetails {
     @Override
     public boolean isEnabled() {
         return habilitado;
+        //return true;
     }
 
 

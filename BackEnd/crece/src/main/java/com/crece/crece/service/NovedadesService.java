@@ -2,6 +2,7 @@ package com.crece.crece.service;
 
 import com.crece.crece.model.Archivo;
 import com.crece.crece.model.Edificio;
+import com.crece.crece.model.MailStructure;
 import com.crece.crece.model.Novedades;
 import com.crece.crece.model.dto.ArchivoDTO;
 import com.crece.crece.model.dto.EdificioDTO;
@@ -9,10 +10,13 @@ import com.crece.crece.model.dto.GetEdificioListDto;
 import com.crece.crece.model.dto.NovedadesDTO;
 import com.crece.crece.repository.ArchivoRepository;
 import com.crece.crece.repository.NovedadesRepository;
+import jakarta.mail.MessagingException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,13 +24,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,13 +37,28 @@ public class NovedadesService {
     private NovedadesRepository repository;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private MailService mailService;
+    @Autowired
+    private UsuarioService usuarioService;
 
     public void eliminarNovedad(Long id) {
         repository.deleteById(id);
     }
-    public void guardarNovedad(NovedadesDTO novedadesDTO){
+    public void guardarNovedad(NovedadesDTO novedadesDTO) throws MessagingException, UnsupportedEncodingException {
         Novedades novedad = modelMapper.map(novedadesDTO, Novedades.class);
         repository.save(novedad);
+        MailStructure mailStructure = new MailStructure();
+        mailStructure.setSubject("Nuevas notificaciones - Administración");
+        mailStructure.setMessage("Mensaje del correo");
+        List<String> mails = usuarioService.getEmailsPorEdificioSinTipo(novedadesDTO.getEdificioId());
+
+        if (novedad.getSendEmail()){
+
+            mailService.sendMailWithoutAttach(mails,mailStructure,novedad);
+
+            System.out.println("Correo enviado por novedades.");
+        }
     }
 
     public List<NovedadesDTO> obtenerNovedades (){

@@ -228,3 +228,6 @@
 [2023-12-19 22:09:25] [ INFO ] [DashboardController:34] se accedio correctamente al usuario: status: <200 OK OK,UsuarioDashboardDTO(id=10, nombre=Gonza, apellido=Pena, email=penagonza@hotmail.com, edificio=com.crece.crece.model.Edificio@19d8598),[]>
 [2023-12-21 00:49:24] [ INFO ] [UsuarioService:53] usuario registrado con exito
 [2024-01-10 21:05:48] [ INFO ] [UsuarioService:53] usuario registrado con exito
+[2024-01-11 15:25:06] [ INFO ] [UsuarioService:55] usuario registrado con exito
+[2024-01-11 15:25:24] [ INFO ] [UsuarioService:55] usuario registrado con exito
+[2024-01-11 20:13:12] [ INFO ] [UsuarioService:55] usuario registrado con exito

@@ -6,6 +6,8 @@ import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+
 @RestController
 @RequestMapping("/mail")
 @CrossOrigin("*")
@@ -21,7 +23,7 @@ public class MailController {
         return "Successfully sent the mail";
     }
     @PostMapping("/sendAttach")
-    public String sendMailAttach(@RequestBody MailRequest mailRequest) throws MessagingException {
+    public String sendMailAttach(@RequestBody MailRequest mailRequest) throws MessagingException, UnsupportedEncodingException {
         mailService.sendMailAttach(mailRequest.getMails(), mailRequest.getMailStructure(), mailRequest.getFilePath());
         return "Successfully sent the mail";
     }

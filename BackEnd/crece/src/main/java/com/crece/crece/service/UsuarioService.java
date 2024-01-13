@@ -17,10 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -119,14 +116,22 @@ public class UsuarioService {
         return usuarioDTOList;
 }
     public List<String> getEmailsPorEdificio(Long edificioId, String tipoUsuario) {
+        tipoUsuario = tipoUsuario.toUpperCase(Locale.ROOT);
         List<Usuario> usuariosPorEdificio = usuarioRepository.findByEdificioId(edificioId);
+        String finalTipoUsuario = tipoUsuario;
         List<String> emails = usuariosPorEdificio.stream()
-                .filter(usuario -> esInquilino(usuario, tipoUsuario))
+                .filter(usuario -> esInquilino(usuario, finalTipoUsuario))
                 .map(Usuario::getEmail)
                 .collect(Collectors.toList());
         return emails;
     }
-
+    public List<String> getEmailsPorEdificioSinTipo(Long edificioId) {
+        List<Usuario> usuariosPorEdificio = usuarioRepository.findByEdificioId(edificioId);
+        List<String> emails = usuariosPorEdificio.stream()
+                .map(Usuario::getEmail)
+                .collect(Collectors.toList());
+        return emails;
+    }
     public boolean esInquilino(Usuario usuario, String tipoUsuario) {
         // Verificar si el tipo de usuario coincide con el proporcionado
         return usuario.getTipoUsuario() != null && tipoUsuario.equals(usuario.getTipoUsuario().getTipo().toString());
@@ -136,10 +141,14 @@ public class UsuarioService {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        changeStatus(usuario);
+        Boolean habilitado = usuario.getHabilitado();
+
+        if (habilitado == null) {
+            usuario.setHabilitado(true);
+        } else {
+            usuario.setHabilitado(!habilitado);
+        }
+
         usuarioRepository.save(usuario);
-    }
-    public void changeStatus(Usuario usuario){
-        usuario.setHabilitado(!usuario.getHabilitado());
     }
 }

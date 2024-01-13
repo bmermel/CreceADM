@@ -42,8 +42,12 @@ public class UsuarioController {
         List<String> emails = usuarioService.getEmailsPorEdificio(edificioId,destinatario);
         return ResponseEntity.status(HttpStatus.OK).body(emails);
     }
-
-    @PatchMapping("/{id}/cambiar-estado")
+    @GetMapping("/emailsPorEdificioSinTipo/{edificioId}")
+    public ResponseEntity<List<String>> obtenerEmailsPorEdificioSinDestinatario(@PathVariable Long edificioId) {
+        List<String> emails = usuarioService.getEmailsPorEdificioSinTipo(edificioId);
+        return ResponseEntity.status(HttpStatus.OK).body(emails);
+    }
+    @PatchMapping("/{idUsuario}/cambiar-estado")
     public ResponseEntity<String> cambiarEstadoUsuario(@PathVariable Long idUsuario) {
 
         try {
