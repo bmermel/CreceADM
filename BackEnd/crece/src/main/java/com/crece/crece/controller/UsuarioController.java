@@ -4,6 +4,7 @@ import com.crece.crece.model.Usuario;
 import com.crece.crece.model.dto.ActualizarUsuarioDTO;
 import com.crece.crece.model.dto.GetUsuarioDTO;
 import com.crece.crece.model.dto.UsuarioDTO;
+import com.crece.crece.model.dto.UsuarioDashboardDTO;
 import com.crece.crece.service.UsuarioService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,9 +61,9 @@ public class UsuarioController {
     }
 
     @GetMapping("/{email}")
-    public ResponseEntity<UsuarioDTO> getUsuarioByMail(@PathVariable String email) {
+    public ResponseEntity<UsuarioDashboardDTO> getUsuarioByMail(@PathVariable String email) {
         try {
-            UsuarioDTO usuarioDTO = usuarioService.leerUsuarioByMail(email);
+            UsuarioDashboardDTO usuarioDTO = usuarioService.getUsuarioByEmail(email);
 
             if (usuarioDTO != null) {
                 return new ResponseEntity<>(usuarioDTO, HttpStatus.OK);

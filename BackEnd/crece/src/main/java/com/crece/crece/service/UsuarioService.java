@@ -98,6 +98,7 @@ public class UsuarioService {
                 usuarioDto.setApellido(usuario.getApellido());
                 usuarioDto.setEmail(usuario.getEmail());
                 usuarioDto.setEdificio(usuario.getEdificio());
+                usuarioDto.setHabilitado(usuario.getHabilitado());
 
 
         log.info("en la busqueda para el usuario del dashboard se armo este objeto: " + usuarioDto.toString());

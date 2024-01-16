@@ -18,4 +18,6 @@ public class UsuarioDashboardDTO {
     private String email;
     private Edificio edificio;
 
+    private Boolean habilitado;
+
 }

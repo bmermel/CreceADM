@@ -55,6 +55,7 @@ public class ArchivoService{
                 .edificio(edificio)
                 .fechaCarga(LocalDate.now())
                 .destinatario(destinatario.toUpperCase())
+                .alias(file.getOriginalFilename())
 
                 .build());
 

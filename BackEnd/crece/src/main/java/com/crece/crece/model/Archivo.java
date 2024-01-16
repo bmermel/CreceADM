@@ -1,5 +1,6 @@
 package com.crece.crece.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import jakarta.persistence.*;
@@ -27,7 +28,10 @@ public class Archivo {
 
     private LocalDate fechaCarga;
     private String destinatario;
+    private String alias;
 
+
+    @JsonIgnore
 
     @JoinColumn(name = "edificio_id")
     @ManyToOne(cascade = CascadeType.PERSIST)
