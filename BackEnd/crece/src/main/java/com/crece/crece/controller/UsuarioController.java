@@ -58,4 +58,19 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
+    @GetMapping("/{email}")
+    public ResponseEntity<UsuarioDTO> getUsuarioByMail(@PathVariable String email) {
+        try {
+            UsuarioDTO usuarioDTO = usuarioService.leerUsuarioByMail(email);
+
+            if (usuarioDTO != null) {
+                return new ResponseEntity<>(usuarioDTO, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

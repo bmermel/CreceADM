@@ -69,6 +69,18 @@ public class UsuarioService {
         return usuarioDTO;
     }
 
+    public UsuarioDTO leerUsuarioByMail(String email) {
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(email);
+        UsuarioDTO usuarioDTO = null;
+
+        if (usuarioOptional.isPresent()) {
+            Usuario usuario = usuarioOptional.get();
+            usuarioDTO = mapper.convertValue(usuario, UsuarioDTO.class);
+        }
+
+        return usuarioDTO;
+    }
+
 
     public void modificarUsuario(ActualizarUsuarioDTO actualizarUsuarioDTO) {
         guardarUsuario(mapper.convertValue(actualizarUsuarioDTO, UsuarioDTO.class));
