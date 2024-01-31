@@ -13,14 +13,17 @@ import com.crece.crece.service.UsuarioService;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 
 @RestController
@@ -38,12 +41,13 @@ public class ArchivoController {
     private UsuarioService usuarioService;
 
     @CrossOrigin(origins = "*")
-    @PostMapping("/fileSystem/{edificioId}/{categoria}/{destinatario}")
+    @PostMapping("/fileSystem/{edificioId}/{categoria}/{destinatario}/{alias}")
     public ResponseEntity<?> uploadImageToFIleSystem(@RequestParam("image") MultipartFile file,
                                                      @PathVariable Long edificioId,
                                                      @PathVariable String categoria,
-                                                     @PathVariable String destinatario) throws IOException {
-        String uploadedFile = service.uploadImageToFileSystem(file, edificioId, categoria,destinatario);
+                                                     @PathVariable String destinatario,
+                                                     @PathVariable String alias) throws IOException {
+        String uploadedFile = service.uploadImageToFileSystem(file, edificioId, categoria, destinatario,alias);
 
         // Crear un objeto MailStructure
         MailStructure mailStructure = new MailStructure();
@@ -51,23 +55,26 @@ public class ArchivoController {
         mailStructure.setMessage("Mensaje del correo");
 
         // Supongamos también que tienes una lista de destinatarios (mails)
-        List<String> mails = usuarioService.getEmailsPorEdificio(edificioId,destinatario);
+        List<String> mails = usuarioService.getEmailsPorEdificio(edificioId, destinatario);
 
-        // Ahora puedes llamar al método sendMailAttach de mailService
-        try {
-            mailService.sendMailAttach(mails, mailStructure, uploadedFile);
-            System.out.println("Correo enviado después de cargar el archivo.");
-        } catch (MessagingException e) {
-            e.printStackTrace();
-            // Manejar la excepción si es necesario
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al enviar el correo después de cargar el archivo.");
-        }
+        // Ahora puedes llamar al método sendMailAttach de mailService de forma asíncrona
+        CompletableFuture.runAsync(() -> sendMailAsync(mails, mailStructure, uploadedFile));
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(uploadedFile);
     }
 
+    @Async
+    private CompletableFuture<Void> sendMailAsync(List<String> mails, MailStructure mailStructure, String uploadedFile) {
+        try {
+            mailService.sendMailAttach(mails, mailStructure, uploadedFile);
+            System.out.println("Correo enviado después de cargar el archivo.");
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+            // Manejar la excepción si es necesario
+        }
+        return null;
+    }
     @GetMapping("/fileSystem/uploadedFiles/{fileName}")
     public ResponseEntity<?> downloadImageFromFileSystem(@PathVariable String fileName) {
         try {

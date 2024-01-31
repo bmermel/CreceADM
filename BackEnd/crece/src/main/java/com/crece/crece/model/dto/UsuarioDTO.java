@@ -16,6 +16,9 @@ public class UsuarioDTO {
     private String nombre;
     private String apellido;
     private String email;
+    private String telefono;
+    private String unidadFuncional;
+
     @JsonProperty
     private String password;
     private Long idRolUsuario;

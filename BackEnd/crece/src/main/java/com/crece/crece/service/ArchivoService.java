@@ -34,7 +34,7 @@ public class ArchivoService{
 
     @Value("${file.upload-directory}")
     private String uploadDirectoryPath;
-    public String uploadImageToFileSystem(MultipartFile file, Long edificioId, String categoria, String destinatario) throws IOException {
+    public String uploadImageToFileSystem(MultipartFile file, Long edificioId, String categoria, String destinatario, String alias) throws IOException {
         //String filePath=System.getProperty("user.dir") + File.separator + file.getOriginalFilename();
         String userHome = System.getProperty("user.home");
         /*String filePath = userHome + File.separator + "uploadedFiles" + File.separator + file.getOriginalFilename();*/
@@ -55,7 +55,7 @@ public class ArchivoService{
                 .edificio(edificio)
                 .fechaCarga(LocalDate.now())
                 .destinatario(destinatario.toUpperCase())
-                .alias(file.getOriginalFilename())
+                .alias(alias)
 
                 .build());
 

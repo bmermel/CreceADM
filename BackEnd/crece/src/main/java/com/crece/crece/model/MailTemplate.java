@@ -79,7 +79,7 @@ public class MailTemplate {
                 "                  <td align=\"center\" style=\"padding:0;Margin:0;width:560px\">\n" +
                 "                   <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" role=\"presentation\" style=\"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px\">\n" +
                 "                     <tr>\n" +
-                "                      <td align=\"center\" style=\"padding:0;Margin:0;font-size:0px\"><img class=\"adapt-img\" src=\"https://ebykeze.stripocdn.email/content/guids/CABINET_2bb993128e94eb6aad17281997ef2bab14730dbcd88354c54ab46ec7ed15687a/images/logocrece01.jpg\" alt style=\"display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic\" height=\"150\" width=\"123\"></td>\n" +
+                "                      <td align=\"center\" style=\"padding:0;Margin:0;font-size:0px\"><img class=\"adapt-img\" src=\"http://217.196.60.243:5173/assets/logoadmcrece.jpg\" alt style=\"display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic\" height=\"150\" width=\"123\"></td>\n" +
                 "                     </tr>\n" +
                 "                   </table></td>\n" +
                 "                 </tr>\n" +
@@ -256,7 +256,7 @@ public class MailTemplate {
                 "                  <td align=\"center\" style=\"padding:0;Margin:0;width:560px\">\n" +
                 "                   <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" role=\"presentation\" style=\"mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px\">\n" +
                 "                     <tr>\n" +
-                "                      <td align=\"center\" style=\"padding:0;Margin:0;font-size:0px\"><img class=\"adapt-img\" src=\"https://ebykeze.stripocdn.email/content/guids/CABINET_2bb993128e94eb6aad17281997ef2bab14730dbcd88354c54ab46ec7ed15687a/images/logocrece01.jpg\" alt style=\"display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic\" height=\"150\" width=\"123\"></td>\n" +
+                "                      <td align=\"center\" style=\"padding:0;Margin:0;font-size:0px\"><img class=\"adapt-img\" src=\"http://217.196.60.243:5173/assets/logoadmcrece.jpg\" alt style=\"display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic\" height=\"150\" width=\"123\"></td>\n" +
                 "                     </tr>\n" +
                 "                   </table></td>\n" +
                 "                 </tr>\n" +

@@ -57,9 +57,15 @@ public class NovedadesController {
             return new ResponseEntity<>("Error al eliminar la novedad", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping()
+   /* @GetMapping()
     public ResponseEntity<List<NovedadesDTO>> obtenerTodasNovedades() {
         List<NovedadesDTO> novedadesDTOList = service.obtenerNovedades();
         return new ResponseEntity<>(novedadesDTOList, HttpStatus.OK);
+    }*/
+
+    @GetMapping()
+    public ResponseEntity<NovedadesDTO> obtenerNovedadesSegunEdificio(Long EdificioId) throws Exception {
+        NovedadesDTO novedad = service.obtenerNovedadPorEdificioId(EdificioId);
+        return new ResponseEntity<>(novedad, HttpStatus.OK);
     }
 }

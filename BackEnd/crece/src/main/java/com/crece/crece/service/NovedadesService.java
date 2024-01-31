@@ -67,6 +67,17 @@ public class NovedadesService {
                 .map(novedad -> modelMapper.map(novedad, NovedadesDTO.class))
                 .collect(Collectors.toList());
     }
+    public NovedadesDTO obtenerNovedadPorEdificioId(Long edificioId) throws Exception {
+        Optional<Novedades> optionalNovedad = repository.findByEdificioId(edificioId);
+
+        if (optionalNovedad.isPresent()) {
+            Novedades novedad = optionalNovedad.get();
+            return modelMapper.map(novedad, NovedadesDTO.class);
+        } else {
+            // Puedes personalizar la excepción según tus necesidades
+            throw new Exception("No hay novedades para el edidicio ID: " + edificioId);
+        }
+    }
 
     public void editarNovedad(Long id, NovedadesDTO novedadesDTO) {
         Optional<Novedades> novedadOptional = repository.findById(id);

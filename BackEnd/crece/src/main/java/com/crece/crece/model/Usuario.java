@@ -35,6 +35,12 @@ public class Usuario implements UserDetails {
     @Column(name = "password", nullable = false)
     @JsonProperty
     private String password;
+    @Column(name = "telefono", nullable = false)
+    @JsonProperty
+    private String telefono;
+    @Column(name = "unidadFuncional", nullable = false)
+    @JsonProperty
+    private String unidadFuncional;
 
     @Column(name = "Habilitado", nullable = false)
 

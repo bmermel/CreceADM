@@ -74,4 +74,20 @@ public class UsuarioController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @PostMapping("/change-password")
+    public ResponseEntity<String> changePassword(@RequestParam("email") String email, @RequestParam("newPassword") String newPassword) {
+        try {
+            // Lógica para cambiar la contraseña y actualizar en la base de datos
+            usuarioService.changePassword(email, newPassword);
+
+            // Opcional: Enviar un correo de confirmación
+            // mailService.sendPasswordChangeConfirmation(email);
+
+            return ResponseEntity.ok("Password changed successfully");
+        } catch (Exception e) {
+            // Manejar cualquier error que pueda ocurrir durante el cambio de contraseña
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to change password");
+        }
+}
 }

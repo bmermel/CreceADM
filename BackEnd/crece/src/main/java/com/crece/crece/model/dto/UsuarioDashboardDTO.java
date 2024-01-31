@@ -19,5 +19,8 @@ public class UsuarioDashboardDTO {
     private Edificio edificio;
 
     private Boolean habilitado;
+    private String telefono;
+    private String unidadFuncional;
+
 
 }

@@ -99,6 +99,9 @@ public class UsuarioService {
                 usuarioDto.setEmail(usuario.getEmail());
                 usuarioDto.setEdificio(usuario.getEdificio());
                 usuarioDto.setHabilitado(usuario.getHabilitado());
+                usuarioDto.setTelefono(usuario.getTelefono());
+                usuarioDto.setUnidadFuncional(usuario.getUnidadFuncional());
+
 
 
         log.info("en la busqueda para el usuario del dashboard se armo este objeto: " + usuarioDto.toString());
@@ -163,5 +166,19 @@ public class UsuarioService {
         }
 
         usuarioRepository.save(usuario);
+    }
+
+    public void changePassword(String email, String newPassword) {
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(email);
+
+        if (usuarioOptional.isPresent()) {
+            Usuario usuario = usuarioOptional.get();
+            usuario.setPassword(encoder.encode(newPassword)); // Usar el encoder para almacenar contraseñas seguras
+
+            // Guardar los cambios en la base de datos
+            usuarioRepository.save(usuario);
+        } else {
+            throw new RuntimeException("Usuario no encontrado para el correo electrónico: " + email);
+        }
     }
 }
