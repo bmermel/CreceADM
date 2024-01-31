@@ -63,9 +63,14 @@ public class NovedadesController {
         return new ResponseEntity<>(novedadesDTOList, HttpStatus.OK);
     }*/
 
-    @GetMapping()
-    public ResponseEntity<NovedadesDTO> obtenerNovedadesSegunEdificio(Long EdificioId) throws Exception {
-        NovedadesDTO novedad = service.obtenerNovedadPorEdificioId(EdificioId);
-        return new ResponseEntity<>(novedad, HttpStatus.OK);
+    @GetMapping("/{edificioId}")
+    public ResponseEntity<?> obtenerNovedadesSegunEdificio(@PathVariable Long edificioId) {
+        try {
+            NovedadesDTO novedad = service.obtenerNovedadPorEdificioId(edificioId);
+            return new ResponseEntity<>(novedad, HttpStatus.OK);
+        } catch (Exception e) {
+            // Manejar cualquier excepción genérica
+            return new ResponseEntity<>("Ocurrió un error al procesar la solicitud", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
