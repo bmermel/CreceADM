@@ -54,7 +54,7 @@ public class NovedadesController {
         } catch (EmptyResultDataAccessException e) {
             return new ResponseEntity<>("Novedad no encontrada", HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            return new ResponseEntity<>("Error al eliminar la novedad", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Error al eliminar la novedad", HttpStatus.NOT_FOUND);
         }
     }
    /* @GetMapping()
@@ -64,13 +64,12 @@ public class NovedadesController {
     }*/
 
     @GetMapping("/{edificioId}")
-    public ResponseEntity<?> obtenerNovedadesSegunEdificio(@PathVariable Long edificioId) {
+    public NovedadesDTO obtenerNovedadesSegunEdificio(@PathVariable Long edificioId) throws Exception {
         try {
             NovedadesDTO novedad = service.obtenerNovedadPorEdificioId(edificioId);
-            return new ResponseEntity<>(novedad, HttpStatus.OK);
-        } catch (Exception e) {
-            // Manejar cualquier excepción genérica
-            return new ResponseEntity<>("Ocurrió un error al procesar la solicitud", HttpStatus.INTERNAL_SERVER_ERROR);
+            return novedad;
+    } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

@@ -11,5 +11,5 @@ public class NovedadesDTO {
     private String texto;
     private LocalDate fecha;
     private Boolean sendEmail;
-    private Long edificioId; // Este campo representa el id del edificio en lugar de la entidad completa
+    private Long edificioId;
 }

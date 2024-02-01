@@ -11,6 +11,7 @@ import com.crece.crece.model.dto.NovedadesDTO;
 import com.crece.crece.repository.ArchivoRepository;
 import com.crece.crece.repository.NovedadesRepository;
 import jakarta.mail.MessagingException;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +30,7 @@ import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,10 +45,20 @@ public class NovedadesService {
     private UsuarioService usuarioService;
 
     public void eliminarNovedad(Long id) {
-        repository.deleteById(id);
-    }
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("La novedad con ID " + id + " no existe");
+        }    }
     public void guardarNovedad(NovedadesDTO novedadesDTO) throws MessagingException, UnsupportedEncodingException {
+        Long edificioId = novedadesDTO.getEdificioId();
+        Optional<Novedades> optionalNovedadExistente = repository.findByEdificioId(edificioId);
+        if (optionalNovedadExistente.isPresent()) {
+            Novedades novedadExistente = optionalNovedadExistente.get();
+            repository.delete(novedadExistente);
+        }
         Novedades novedad = modelMapper.map(novedadesDTO, Novedades.class);
+
         repository.save(novedad);
         MailStructure mailStructure = new MailStructure();
         mailStructure.setSubject("Nuevas notificaciones - Administración");
@@ -55,9 +67,15 @@ public class NovedadesService {
 
         if (novedad.getSendEmail()){
 
-            mailService.sendMailWithoutAttach(mails,mailStructure,novedad);
-
-            System.out.println("Correo enviado por novedades.");
+            CompletableFuture.runAsync(() -> {
+                try {
+                    mailService.sendMailWithoutAttach(mails, mailStructure, novedad);
+                    System.out.println("Correo enviado por novedades.");
+                } catch (MessagingException | UnsupportedEncodingException e) {
+                    // Manejar excepciones si es necesario
+                    e.printStackTrace();
+                }
+            });
         }
     }
 
