@@ -66,6 +66,8 @@ public class AuthService {
                 .idEdificio(request.idEdificio)
                 .idRolUsuario(request.idRolUsuario)
                 .idTipoUsuario(request.idTipoUsuario)
+                .telefono(request.telefono)
+                .unidadFuncional(request.unidadFuncional)
                 .build();
         usuarioService.guardarUsuario(usuarioDTO);
         UserDetails user = mapper.convertValue(usuarioDTO, Usuario.class);

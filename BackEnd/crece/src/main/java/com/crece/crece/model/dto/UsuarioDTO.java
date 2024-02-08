@@ -3,6 +3,7 @@ package com.crece.crece.model.dto;
 import com.crece.crece.model.Edificio;
 import com.crece.crece.model.RolUsuario;
 import com.crece.crece.model.TipoUsuario;
+import com.crece.crece.model.enums.Roles;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;

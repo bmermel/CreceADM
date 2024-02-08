@@ -1,6 +1,7 @@
 package com.crece.crece.model;
 
 
+import com.crece.crece.model.enums.Roles;
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import jakarta.persistence.*;
@@ -9,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -60,7 +62,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority((rolUsuario.getRol().name())));
+        return rolUsuario.getRol().getAuthorities();
     }
 
     @Override
@@ -85,8 +87,11 @@ public class Usuario implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return habilitado;
-        //return true;
+        if (this.habilitado != null) {
+            return this.habilitado.booleanValue();
+        } else {
+            return false;
+        }
     }
 
 
