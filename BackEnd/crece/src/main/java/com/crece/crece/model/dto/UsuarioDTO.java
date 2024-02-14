@@ -25,6 +25,7 @@ public class UsuarioDTO {
     private Long idRolUsuario;
     private Long idEdificio;
     private Long idTipoUsuario;
+    private Boolean habilitado;
 
 
 }

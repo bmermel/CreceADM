@@ -36,13 +36,29 @@ public class SecurityConfig {
                         authRequest
                                 //.requestMatchers("/**").permitAll()
                                 .requestMatchers("/auth/**").permitAll()
-                                .requestMatchers("/novedades/**").hasAnyRole(Roles.ADMIN.name())
+                                .requestMatchers("/novedades/**").hasAnyRole(Roles.ADMIN.name(),Roles.USER.name())
                                 .requestMatchers(HttpMethod.POST,"/novedades/**").hasAnyAuthority(ADMIN_CREATE.name())
                                 .requestMatchers(HttpMethod.GET,"/novedades/**").hasAnyAuthority(ADMIN_READ.name(),USER_READ.name())
                                 .requestMatchers(HttpMethod.DELETE,"/novedades/**").hasAnyAuthority(ADMIN_DELETE.name())
 
+                                .requestMatchers("/file/fileSystem/**").hasAnyRole(Roles.ADMIN.name(),Roles.USER.name())
+                                .requestMatchers(HttpMethod.POST,"/file/fileSystem/**").hasAuthority(ADMIN_CREATE.name())
+                                .requestMatchers(HttpMethod.GET,"/file/fileSystem/**").hasAnyAuthority(ADMIN_READ.name(),USER_READ.name())
+                                .requestMatchers(HttpMethod.DELETE,"/fileSystem/delete/").hasAuthority(ADMIN_DELETE.name())
 
-                                //.requestMatchers("/file/fileSystem/upload/**").hasRole(Roles.ADMIN.name())
+                                .requestMatchers("/user/**").hasAnyRole(Roles.ADMIN.name(),Roles.USER.name())
+                                .requestMatchers(HttpMethod.GET,"/user/**").hasAnyAuthority(ADMIN_READ.name(),USER_READ.name())
+                                .requestMatchers(HttpMethod.POST,"/user/**").hasAnyAuthority(ADMIN_CREATE.name())
+                                .requestMatchers(HttpMethod.DELETE,"/user/**").hasAnyAuthority(ADMIN_DELETE.name())
+                                .requestMatchers(HttpMethod.PATCH,"/user/**").hasAnyAuthority(ADMIN_PATCH.name())
+                                .requestMatchers(HttpMethod.PUT,"/user/**").hasAnyAuthority(ADMIN_PUT.name())
+
+                                .requestMatchers("/edificio/**").hasAnyRole(Roles.ADMIN.name(),Roles.USER.name())
+                                .requestMatchers(HttpMethod.GET,"/edificio/**").hasAnyAuthority(ADMIN_READ.name(),USER_READ.name())
+                                .requestMatchers(HttpMethod.POST,"/edificio/**").hasAuthority(ADMIN_CREATE.name())
+                                .requestMatchers(HttpMethod.DELETE,"/edificio/**").hasAuthority(ADMIN_DELETE.name())
+
+                        //.requestMatchers("/file/fileSystem/upload/**").hasRole(Roles.ADMIN.name())
 
 
 

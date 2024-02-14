@@ -36,6 +36,8 @@ public class Edificio {
     @JsonIgnore
     @OneToMany (mappedBy = "edificio")
     private List<Usuario> usuarios;
+
+    //@JsonIgnore
     @OneToMany (mappedBy = "edificio")
     private List<Archivo> archivoList;
 }

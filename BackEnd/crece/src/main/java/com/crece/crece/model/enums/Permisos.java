@@ -10,6 +10,8 @@ public enum Permisos {
     ADMIN_CREATE("admin:create"),
     ADMIN_PATCH("admin:patch"),
     ADMIN_DELETE("admin:delete"),
+    ADMIN_PUT("admin:put"),
+
     USER_READ("user:read"),
     USER_UPDATE("user:update"),
     USER_CREATE("user:create"),

@@ -4,6 +4,7 @@ import com.crece.crece.model.Edificio;
 
 import com.crece.crece.model.dto.EdificioDTO;
 import com.crece.crece.model.dto.GetEdificioListDto;
+import com.crece.crece.model.dto.GetEdificioListDtoCompleto;
 import com.crece.crece.repository.IEdificioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,18 @@ public class EdificioService {
 
         for(Edificio edificio : edificioList){
             GetEdificioListDto getEdificioListDto = mapper.convertValue(edificio, GetEdificioListDto.class);
+            edificioListDtos.add(getEdificioListDto);
+        }
+        return edificioListDtos;
+    }
+
+    public List<GetEdificioListDtoCompleto> getEdificiosCompletos (){
+        List<Edificio> edificioList = edificioRepository.findAll();
+
+        List<GetEdificioListDtoCompleto> edificioListDtos = new ArrayList<>();
+
+        for(Edificio edificio : edificioList){
+            GetEdificioListDtoCompleto getEdificioListDto = mapper.convertValue(edificio, GetEdificioListDtoCompleto.class);
             edificioListDtos.add(getEdificioListDto);
         }
         return edificioListDtos;

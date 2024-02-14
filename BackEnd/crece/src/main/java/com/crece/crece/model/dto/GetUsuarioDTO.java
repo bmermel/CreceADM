@@ -2,6 +2,7 @@ package com.crece.crece.model.dto;
 
 
 import com.crece.crece.model.Edificio;
+import com.crece.crece.model.Novedades;
 import com.crece.crece.model.RolUsuario;
 import com.crece.crece.model.TipoUsuario;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -18,5 +19,10 @@ public class GetUsuarioDTO {
     private Edificio edificio;
     private TipoUsuario tipoUsuario;
     private RolUsuario rolUsuario;
+    private String telefono;
+    private String unidadFuncional;
+    private Boolean habilitado;
+
+
 
 }

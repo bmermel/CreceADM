@@ -2,6 +2,7 @@ package com.crece.crece.controller;
 
 import com.crece.crece.model.dto.EdificioDTO;
 import com.crece.crece.model.dto.GetEdificioListDto;
+import com.crece.crece.model.dto.GetEdificioListDtoCompleto;
 import com.crece.crece.service.EdificioService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,9 @@ public class EdificioController {
     @GetMapping()
     public List<GetEdificioListDto> getEdificios () {
         return edificioService.getEdificios();
+    }
+    @GetMapping("/all")
+    public List<GetEdificioListDtoCompleto> getEdificiosCompletos () {
+        return edificioService.getEdificiosCompletos();
     }
 }

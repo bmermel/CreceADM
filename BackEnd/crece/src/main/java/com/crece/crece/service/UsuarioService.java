@@ -7,10 +7,7 @@ import com.crece.crece.model.TipoUsuario;
 import com.crece.crece.model.Usuario;
 import com.crece.crece.model.dto.*;
 import com.crece.crece.model.enums.Tipos;
-import com.crece.crece.repository.IEdificioRepository;
-import com.crece.crece.repository.IRolUsuarioRepository;
-import com.crece.crece.repository.ITipoUsuarioRepository;
-import com.crece.crece.repository.IUsuarioRepository;
+import com.crece.crece.repository.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +28,8 @@ public class UsuarioService {
     private IRolUsuarioRepository rolUsuarioRepository;
     @Autowired
     private ITipoUsuarioRepository tipoUsuarioRepository;
+    @Autowired
+    private NovedadesRepository novedadesRepository;
     @Autowired
     private ObjectMapper mapper;
     @Autowired
@@ -101,6 +100,9 @@ public class UsuarioService {
                 usuarioDto.setHabilitado(usuario.getHabilitado());
                 usuarioDto.setTelefono(usuario.getTelefono());
                 usuarioDto.setUnidadFuncional(usuario.getUnidadFuncional());
+                usuarioDto.setRolUsuario(usuario.getRolUsuario());
+                usuarioDto.setNovedad(novedadesRepository.findByEdificioId(usuario.getEdificio().getId()).orElse(null));
+
 
 
 
@@ -126,6 +128,11 @@ public class UsuarioService {
             user.setTipoUsuario(usuario.getTipoUsuario());
             user.setEdificio(usuario.getEdificio());
             user.setEmail(usuario.getEmail());
+            user.setHabilitado(usuario.getHabilitado());
+            user.setUnidadFuncional(usuario.getUnidadFuncional());
+            user.setTelefono(usuario.getTelefono());
+
+
             usuarioDTOList.add(user);
         }
 
