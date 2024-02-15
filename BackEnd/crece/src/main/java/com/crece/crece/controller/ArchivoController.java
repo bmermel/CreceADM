@@ -57,7 +57,7 @@ public class ArchivoController {
         mailStructure.setMessage("Mensaje del correo");
 
         // Supongamos también que tienes una lista de destinatarios (mails)
-        List<String> mails = usuarioService.getEmailsPorEdificio(edificioId, destinatario);
+        List<String> mails = usuarioService.getEmailsPorEdificioSinTipo(edificioId);
 
         // Ahora puedes llamar al método sendMailAttach de mailService de forma asíncrona
         CompletableFuture.runAsync(() -> sendMailAsync(mails, mailStructure, uploadedFile));

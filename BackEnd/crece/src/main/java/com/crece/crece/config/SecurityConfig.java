@@ -53,7 +53,9 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PATCH,"/user/**").hasAnyAuthority(ADMIN_PATCH.name())
                                 .requestMatchers(HttpMethod.PUT,"/user/**").hasAnyAuthority(ADMIN_PUT.name())
 
+                                .requestMatchers("/edificio").permitAll()
                                 .requestMatchers("/edificio/**").hasAnyRole(Roles.ADMIN.name(),Roles.USER.name())
+
                                 .requestMatchers(HttpMethod.GET,"/edificio/**").hasAnyAuthority(ADMIN_READ.name(),USER_READ.name())
                                 .requestMatchers(HttpMethod.POST,"/edificio/**").hasAuthority(ADMIN_CREATE.name())
                                 .requestMatchers(HttpMethod.DELETE,"/edificio/**").hasAuthority(ADMIN_DELETE.name())

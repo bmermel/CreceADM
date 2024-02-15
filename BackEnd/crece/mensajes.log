@@ -239,3 +239,8 @@
 [2024-02-13 21:53:08] [ INFO ] [UsuarioService:109] en la busqueda para el usuario del dashboard se armo este objeto: UsuarioDashboardDTO(id=22, nombre=Brian, apellido=Mermelstein, email=bmermel@gmail.com, edificio=com.crece.crece.model.Edificio@3debcb40, habilitado=true, telefono=1121674504, unidadFuncional=6c, rolUsuario=com.crece.crece.model.RolUsuario@97a1311)
 [2024-02-13 22:39:16] [ INFO ] [UsuarioService:109] en la busqueda para el usuario del dashboard se armo este objeto: UsuarioDashboardDTO(id=22, nombre=Brian, apellido=Mermelstein, email=bmermel@gmail.com, edificio=com.crece.crece.model.Edificio@3336d57c, habilitado=true, telefono=1121674504, unidadFuncional=6c, rolUsuario=com.crece.crece.model.RolUsuario@1f713a64)
 [2024-02-13 23:27:01] [ INFO ] [UsuarioService:109] en la busqueda para el usuario del dashboard se armo este objeto: UsuarioDashboardDTO(id=22, nombre=Brian, apellido=Mermelstein, email=bmermel@gmail.com, edificio=com.crece.crece.model.Edificio@ce1fbb8, habilitado=true, telefono=1121674504, unidadFuncional=6c, rolUsuario=com.crece.crece.model.RolUsuario@76398a50)
+[2024-02-14 20:53:11] [ INFO ] [UsuarioService:51] usuario registrado con exito
+[2024-02-14 20:53:24] [ INFO ] [UsuarioService:51] usuario registrado con exito
+[2024-02-14 20:54:23] [ INFO ] [UsuarioService:51] usuario registrado con exito
+[2024-02-14 20:54:54] [ INFO ] [UsuarioService:51] usuario registrado con exito
+[2024-02-14 21:02:18] [ INFO ] [UsuarioService:54] usuario registrado con exito

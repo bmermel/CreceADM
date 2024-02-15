@@ -47,6 +47,9 @@ public class UsuarioService {
             usuario.setTipoUsuario(tipoUsuario);
             usuario.setRolUsuario(rol);
             usuario.setEdificio(edificio);
+            //usuario.setNombre(usuario.getNombre());
+            //usuario.setApellido(usuario.getApellido());
+            //usuario.setHabilitado(false);
 
             log.info("usuario registrado con exito");
 
@@ -131,6 +134,7 @@ public class UsuarioService {
             user.setHabilitado(usuario.getHabilitado());
             user.setUnidadFuncional(usuario.getUnidadFuncional());
             user.setTelefono(usuario.getTelefono());
+            user.setId(usuario.getId());
 
 
             usuarioDTOList.add(user);
