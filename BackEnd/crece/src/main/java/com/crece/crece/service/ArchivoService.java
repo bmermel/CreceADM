@@ -3,6 +3,7 @@ package com.crece.crece.service;
 import com.crece.crece.model.Archivo;
 import com.crece.crece.model.Edificio;
 import com.crece.crece.model.dto.ArchivoDTO;
+import com.crece.crece.model.dto.ArchivoYEdificioDTO;
 import com.crece.crece.repository.ArchivoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -68,16 +69,21 @@ public class ArchivoService{
     }
 
 
-    public byte[] downloadImageFromFileSystem(String fileName) throws IOException {
-        Optional<Archivo> fileData = fileDataRepository.findByName(fileName);
+    public byte[] downloadImageFromFileSystem(Long id) throws IOException {
+        //Optional<Archivo> fileData = fileDataRepository.findByName(fileName);
+        Optional<Archivo> fileData2 = fileDataRepository.findById(id);
 
-        if (fileData.isPresent()) {
-            String filePath = fileData.get().getFilePath();
-            return Files.readAllBytes(new File(filePath).toPath());
+
+        if (fileData2.isPresent() ) {
+            //String filePath = fileData.get().getFilePath();
+            String filePath2 = fileData2.get().getFilePath();
+
+            return Files.readAllBytes(new File(filePath2).toPath());
+
         } else {
             // Manejar el caso cuando el archivo no se encuentra
             // Puedes lanzar una excepción, loggear un mensaje de error, etc.
-            throw new FileNotFoundException("Archivo no encontrado: " + fileName);
+            throw new FileNotFoundException("Archivo no encontrado: " + id);
         }
     }
 
@@ -87,12 +93,12 @@ public class ArchivoService{
         byte[] images = Files.readAllBytes(new File(filePath).toPath());
         return images;
     }*/
-    public List<ArchivoDTO> getAllArchivos() {
+    public List<ArchivoYEdificioDTO> getAllArchivos() {
         List<Archivo> archivos = fileDataRepository.findAll();
-        List<ArchivoDTO> archivoDTOs = new ArrayList<>();
+        List<ArchivoYEdificioDTO> archivoDTOs = new ArrayList<>();
 
         for (Archivo archivo : archivos) {
-            ArchivoDTO archivoDTO = convertirArchivoAArchivoDTO(archivo);
+            ArchivoYEdificioDTO archivoDTO = convertirArchivoAArchivoYEdificioDTO(archivo);
             archivoDTOs.add(archivoDTO);
         }
 
@@ -106,6 +112,23 @@ public class ArchivoService{
         archivoDTO.setDescripcion(archivo.getName());
         archivoDTO.setCategoria(archivo.getType());
         archivoDTO.setFilePath(archivo.getFilePath());
+        archivoDTO.setAlias(archivo.getAlias());
+        if (archivo.getFechaCarga()!=null){
+            archivoDTO.setFechaDeIngreso(archivo.getFechaCarga().toString());}
+        // ... (otros campos)
+
+        return archivoDTO;
+    }
+
+    private ArchivoYEdificioDTO convertirArchivoAArchivoYEdificioDTO(Archivo archivo) {
+
+        ArchivoYEdificioDTO archivoDTO = new ArchivoYEdificioDTO();
+        archivoDTO.setId(archivo.getId());
+        archivoDTO.setDescripcion(archivo.getName());
+        archivoDTO.setCategoria(archivo.getType());
+        archivoDTO.setFilePath(archivo.getFilePath());
+        archivoDTO.setAlias(archivo.getAlias());
+        archivoDTO.setEdificioNombre(archivo.getEdificio().getNombre());
         if (archivo.getFechaCarga()!=null){
             archivoDTO.setFechaDeIngreso(archivo.getFechaCarga().toString());}
         // ... (otros campos)
@@ -171,5 +194,16 @@ public class ArchivoService{
             archivoDTOs.add(archivoDTO);
         }
         return archivoDTOs;
+    }
+
+    public String obtenerNombrePorId(Long id){
+        Optional<Archivo> archivoOptional = fileDataRepository.findById(id);
+        if (archivoOptional.isPresent() ) {
+            Archivo archivo = archivoOptional.get();
+            System.out.println(archivo.getName());
+            return archivo.getName();
+        } else {
+            throw new RuntimeException("No se encontró ningun archivo con el ID enviado");
+        }
     }
 }

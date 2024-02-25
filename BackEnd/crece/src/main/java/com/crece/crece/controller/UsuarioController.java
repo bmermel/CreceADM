@@ -5,6 +5,7 @@ import com.crece.crece.model.dto.ActualizarUsuarioDTO;
 import com.crece.crece.model.dto.GetUsuarioDTO;
 import com.crece.crece.model.dto.UsuarioDTO;
 import com.crece.crece.model.dto.UsuarioDashboardDTO;
+import com.crece.crece.model.enums.Roles;
 import com.crece.crece.service.UsuarioService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,4 +91,13 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to change password");
         }
 }
+    @GetMapping("/rol/{email}")
+    public ResponseEntity<String> obtenerRolPorEmail(@PathVariable("email") String email) {
+        try {
+            Roles rol = usuarioService.obtenerRolPorEmail(email);
+            return ResponseEntity.ok(rol.toString());
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

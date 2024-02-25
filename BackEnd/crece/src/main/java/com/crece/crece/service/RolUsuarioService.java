@@ -36,4 +36,6 @@ public class RolUsuarioService {
     public RolUsuario convertirDtoAClase(RolUsuarioDto rolUsuarioDto){
         return mapper.convertValue(rolUsuarioDto, RolUsuario.class);
     }
+
+
 }

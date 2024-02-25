@@ -41,10 +41,10 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET,"/novedades/**").hasAnyAuthority(ADMIN_READ.name(),USER_READ.name())
                                 .requestMatchers(HttpMethod.DELETE,"/novedades/**").hasAnyAuthority(ADMIN_DELETE.name())
 
-                                .requestMatchers("/file/fileSystem/**").hasAnyRole(Roles.ADMIN.name(),Roles.USER.name())
-                                .requestMatchers(HttpMethod.POST,"/file/fileSystem/**").hasAuthority(ADMIN_CREATE.name())
-                                .requestMatchers(HttpMethod.GET,"/file/fileSystem/**").hasAnyAuthority(ADMIN_READ.name(),USER_READ.name())
-                                .requestMatchers(HttpMethod.DELETE,"/fileSystem/delete/").hasAuthority(ADMIN_DELETE.name())
+                                .requestMatchers("/file/fileSystem/**").permitAll()
+                                //.requestMatchers(HttpMethod.POST,"/file/fileSystem/**").hasAuthority(ADMIN_CREATE.name())
+                                //.requestMatchers(HttpMethod.GET,"/file/fileSystem/**").hasAnyAuthority(ADMIN_READ.name(),USER_READ.name())
+                                //.requestMatchers(HttpMethod.DELETE,"/fileSystem/delete/").hasAuthority(ADMIN_DELETE.name())
 
                                 .requestMatchers("/user/**").hasAnyRole(Roles.ADMIN.name(),Roles.USER.name())
                                 .requestMatchers(HttpMethod.GET,"/user/**").hasAnyAuthority(ADMIN_READ.name(),USER_READ.name())

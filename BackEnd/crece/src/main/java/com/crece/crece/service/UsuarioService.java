@@ -6,6 +6,7 @@ import com.crece.crece.model.RolUsuario;
 import com.crece.crece.model.TipoUsuario;
 import com.crece.crece.model.Usuario;
 import com.crece.crece.model.dto.*;
+import com.crece.crece.model.enums.Roles;
 import com.crece.crece.model.enums.Tipos;
 import com.crece.crece.repository.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -94,7 +95,6 @@ public class UsuarioService {
         // Aquí puedes construir el UsuarioDTO según tus necesidades
         UsuarioDashboardDTO usuarioDto = new UsuarioDashboardDTO();
 
-
                 usuarioDto.setId(usuario.getId());
                 usuarioDto.setNombre(usuario.getNombre());
                 usuarioDto.setApellido(usuario.getApellido());
@@ -120,28 +120,36 @@ public class UsuarioService {
 }
 
     public List<GetUsuarioDTO> getUsuarios() {
-
         List<Usuario> usuarioList = usuarioRepository.findAll();
         List<GetUsuarioDTO> usuarioDTOList = new ArrayList<>();
 
         for (Usuario usuario : usuarioList) {
-            GetUsuarioDTO user = mapper.convertValue(usuario, GetUsuarioDTO.class);
+            GetUsuarioDTO user = new GetUsuarioDTO();
 
-            user.setRolUsuario(usuario.getRolUsuario());
-            user.setTipoUsuario(usuario.getTipoUsuario());
-            user.setEdificio(usuario.getEdificio());
+            user.setId(usuario.getId());
+            user.setNombre(usuario.getNombre() + " "+ usuario.getApellido());
+            //user.setApellido(usuario.getApellido());
             user.setEmail(usuario.getEmail());
             user.setHabilitado(usuario.getHabilitado());
             user.setUnidadFuncional(usuario.getUnidadFuncional());
             user.setTelefono(usuario.getTelefono());
-            user.setId(usuario.getId());
 
+            if (usuario.getEdificio() != null) {
+                user.setEdificio(usuario.getEdificio().getNombre());
+            }
+
+            if (usuario.getRolUsuario() != null) {
+                user.setRolUsuario(usuario.getRolUsuario().getRol().toString());
+            }
+
+            if (usuario.getTipoUsuario() != null) {
+                user.setTipoUsuario(usuario.getTipoUsuario().getTipo().toString());
+            }
 
             usuarioDTOList.add(user);
         }
-
         return usuarioDTOList;
-}
+    }
     public List<String> getEmailsPorEdificio(Long edificioId, String tipoUsuario) {
         tipoUsuario = tipoUsuario.toUpperCase(Locale.ROOT);
         List<Usuario> usuariosPorEdificio = usuarioRepository.findByEdificioId(edificioId);
@@ -190,6 +198,23 @@ public class UsuarioService {
             usuarioRepository.save(usuario);
         } else {
             throw new RuntimeException("Usuario no encontrado para el correo electrónico: " + email);
+        }
+    }
+
+    public Roles obtenerRolPorEmail(String email) {
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(email);
+
+        if (usuarioOptional.isPresent()) {
+            Usuario usuario = usuarioOptional.get();
+            RolUsuario rolUsuario = usuario.getRolUsuario();
+
+            if (rolUsuario != null) {
+                return rolUsuario.getRol();
+            } else {
+                throw new RuntimeException("El usuario no tiene un rol asignado.");
+            }
+        } else {
+            throw new RuntimeException("Usuario no encontrado para el correo electrónico enviado.");
         }
     }
 }

@@ -4,6 +4,7 @@ import com.crece.crece.model.Archivo;
 import com.crece.crece.model.MailStructure;
 import com.crece.crece.model.Usuario;
 import com.crece.crece.model.dto.ArchivoDTO;
+import com.crece.crece.model.dto.ArchivoYEdificioDTO;
 import com.crece.crece.model.dto.GetEdificioListDto;
 import com.crece.crece.model.dto.GetUsuarioDTO;
 import com.crece.crece.service.ArchivoService;
@@ -77,26 +78,30 @@ public class ArchivoController {
         }
         return null;
     }
-    @GetMapping("/fileSystem/uploadedFiles/{fileName}")
-    public ResponseEntity<?> downloadImageFromFileSystem(@PathVariable String fileName) {
+/*    @GetMapping("/fileSystem/uploadedFiles/{id}")
+    public ResponseEntity<?> downloadImageFromFileSystem(@PathVariable Long id) {
         try {
-            byte[] imageData = service.downloadImageFromFileSystem(fileName);
+            byte[] imageData = service.downloadImageFromFileSystem(id);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            headers.setContentDispositionFormData("attachment", fileName);
+            headers.setContentDispositionFormData("attachment", id.toString());
             return new ResponseEntity<>(imageData, headers, HttpStatus.OK);
         } catch (FileNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Archivo no encontrado: " + fileName);
+                    .body("Archivo con el siguiente ID no encontrado: " + id);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al procesar la solicitud");
         }
+    }*/
+    @GetMapping("/fileSystem/uploadedFiles/{id}")
+    public String getNombrePorID(@PathVariable Long id){
+        return service.obtenerNombrePorId(id);
     }
 
     @GetMapping("/fileSystem/all")
     public ResponseEntity<?> getAllFiles() {
-        List<ArchivoDTO> archivos = service.getAllArchivos();  // Necesitas implementar este método en ArchivoService
+        List<ArchivoYEdificioDTO> archivos = service.getAllArchivos();  // Necesitas implementar este método en ArchivoService
         return ResponseEntity.status(HttpStatus.OK)
                 .body(archivos);
     }
