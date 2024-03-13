@@ -65,5 +65,18 @@ public class EdificioService {
         }
         return edificioListDtos;
     }
+    public void editarEdificio(Long id, EdificioDTO edificioDTO) throws Exception {
+        Optional<Edificio> optionalEdificio = edificioRepository.findById(id);
+        if (optionalEdificio.isPresent()) {
+            Edificio edificioExistente = optionalEdificio.get();
 
+            edificioExistente.setNombre(edificioDTO.getNombre());
+            edificioExistente.setCuit(edificioDTO.getCuit());
+            edificioExistente.setDireccion(edificioDTO.getDireccion());
+            edificioExistente.setRazonSocial(edificioDTO.getRazonSocial());
+            edificioRepository.save(edificioExistente);
+        } else {
+            throw new Exception("No se encontró el edificio con ID: " + id);
+        }
+    }
 }

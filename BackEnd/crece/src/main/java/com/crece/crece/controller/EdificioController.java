@@ -48,4 +48,14 @@ public class EdificioController {
     public List<GetEdificioListDtoCompleto> getEdificiosCompletos () {
         return edificioService.getEdificiosCompletos();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> editarEdificio(@PathVariable Long id, @RequestBody EdificioDTO edificioDTO) {
+        try {
+            edificioService.editarEdificio(id, edificioDTO);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
 }

@@ -4,10 +4,7 @@ import com.crece.crece.model.Archivo;
 import com.crece.crece.model.Edificio;
 import com.crece.crece.model.MailStructure;
 import com.crece.crece.model.Novedades;
-import com.crece.crece.model.dto.ArchivoDTO;
-import com.crece.crece.model.dto.EdificioDTO;
-import com.crece.crece.model.dto.GetEdificioListDto;
-import com.crece.crece.model.dto.NovedadesDTO;
+import com.crece.crece.model.dto.*;
 import com.crece.crece.repository.ArchivoRepository;
 import com.crece.crece.repository.NovedadesRepository;
 import jakarta.mail.MessagingException;
@@ -50,9 +47,9 @@ public class NovedadesService {
         } else {
             throw new EntityNotFoundException("La novedad con ID " + id + " no existe");
         }    }
-    public void guardarNovedad(NovedadesDTO novedadesDTO) throws MessagingException, UnsupportedEncodingException {
-        Long edificioId = novedadesDTO.getEdificioId();
-        Optional<Novedades> optionalNovedadExistente = repository.findByEdificioId(edificioId);
+    public void guardarNovedad(NovedadesSinIDDTO novedadesDTO) throws MessagingException, UnsupportedEncodingException {
+
+        Optional<Novedades> optionalNovedadExistente = repository.findByEdificioId(novedadesDTO.getEdificioId());
         if (optionalNovedadExistente.isPresent()) {
             Novedades novedadExistente = optionalNovedadExistente.get();
             repository.delete(novedadExistente);
@@ -108,6 +105,13 @@ public class NovedadesService {
             // Manejar la situación en la que no se encuentra la novedad con el id proporcionado
             throw new NoSuchElementException("No se encontró la novedad con ID: " + id);
         }
+    }
+
+    public List<NovedadesDTO> obtenerTodasLasNovedades() {
+        List<Novedades> novedades = repository.findAll();
+        return novedades.stream()
+                .map(novedad -> modelMapper.map(novedad, NovedadesDTO.class))
+                .collect(Collectors.toList());
     }
 
 }

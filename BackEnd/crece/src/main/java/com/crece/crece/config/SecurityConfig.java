@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -42,9 +43,13 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE,"/novedades/**").hasAnyAuthority(ADMIN_DELETE.name())
 
                                 .requestMatchers("/file/fileSystem/**").permitAll()
-                                //.requestMatchers(HttpMethod.POST,"/file/fileSystem/**").hasAuthority(ADMIN_CREATE.name())
-                                //.requestMatchers(HttpMethod.GET,"/file/fileSystem/**").hasAnyAuthority(ADMIN_READ.name(),USER_READ.name())
-                                //.requestMatchers(HttpMethod.DELETE,"/fileSystem/delete/").hasAuthority(ADMIN_DELETE.name())
+                                .requestMatchers(HttpMethod.GET, "/file/fileSystem/uploadedFiles/**").hasAnyRole(Roles.USER.name(), Roles.ADMIN.name())
+
+                                .requestMatchers(HttpMethod.POST,"/file/fileSystem/**").hasAnyAuthority(ADMIN_CREATE.name(),ADMIN_READ.name(),ADMIN_DELETE.name(),ADMIN_PUT.name())
+                                .requestMatchers(HttpMethod.GET,"/file/fileSystem/**").hasAnyAuthority(ADMIN_CREATE.name(),ADMIN_READ.name(),ADMIN_DELETE.name(),ADMIN_PUT.name())
+                                .requestMatchers(HttpMethod.DELETE,"/fileSystem/delete/**").hasAuthority(ADMIN_DELETE.name())
+                                .requestMatchers(HttpMethod.GET, "/file/fileSystem/uploadedFiles/**").hasAnyRole(Roles.USER.name(), Roles.ADMIN.name())
+
 
                                 .requestMatchers("/user/**").hasAnyRole(Roles.ADMIN.name(),Roles.USER.name())
                                 .requestMatchers(HttpMethod.GET,"/user/**").hasAnyAuthority(ADMIN_READ.name(),USER_READ.name())
@@ -54,11 +59,13 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PUT,"/user/**").hasAnyAuthority(ADMIN_PUT.name())
 
                                 .requestMatchers("/edificio").permitAll()
-                                .requestMatchers("/edificio/**").hasAnyRole(Roles.ADMIN.name(),Roles.USER.name())
+/*                                .requestMatchers("/edificio/**").hasAnyRole(Roles.ADMIN.name(),Roles.USER.name())
 
                                 .requestMatchers(HttpMethod.GET,"/edificio/**").hasAnyAuthority(ADMIN_READ.name(),USER_READ.name())
                                 .requestMatchers(HttpMethod.POST,"/edificio/**").hasAuthority(ADMIN_CREATE.name())
                                 .requestMatchers(HttpMethod.DELETE,"/edificio/**").hasAuthority(ADMIN_DELETE.name())
+                                .requestMatchers(HttpMethod.PUT,"/edificio/**").hasAuthority(ADMIN_PUT.name())*/
+
 
                         //.requestMatchers("/file/fileSystem/upload/**").hasRole(Roles.ADMIN.name())
 

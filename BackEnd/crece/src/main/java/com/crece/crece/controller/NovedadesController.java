@@ -3,6 +3,7 @@ package com.crece.crece.controller;
 import com.crece.crece.model.dto.EdificioDTO;
 import com.crece.crece.model.dto.GetEdificioListDto;
 import com.crece.crece.model.dto.NovedadesDTO;
+import com.crece.crece.model.dto.NovedadesSinIDDTO;
 import com.crece.crece.service.EdificioService;
 import com.crece.crece.service.NovedadesService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,7 +30,7 @@ public class NovedadesController {
     private ObjectMapper mapper;
 
     @PostMapping()
-    public ResponseEntity<?> crearNovedad(@RequestBody NovedadesDTO novedadesDTO) throws MessagingException, UnsupportedEncodingException {
+    public ResponseEntity<?> crearNovedad(@RequestBody NovedadesSinIDDTO novedadesDTO) throws MessagingException, UnsupportedEncodingException {
         service.guardarNovedad(novedadesDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -71,6 +72,16 @@ public class NovedadesController {
             return novedad;
     } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("/todas")
+    public ResponseEntity<?> obtenerTodasLasNovedades() {
+        try {
+            List<NovedadesDTO> novedades = service.obtenerTodasLasNovedades();
+            return ResponseEntity.ok(novedades);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al obtener las novedades: " + e.getMessage());
         }
     }
 }
