@@ -45,10 +45,10 @@ public class SecurityConfig {
                                 .requestMatchers("/file/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/file/fileSystem/**").hasAnyRole(Roles.USER.name(), Roles.ADMIN.name())
 
-                                .requestMatchers(HttpMethod.POST,"/file/fileSystem/**").hasAnyAuthority(ADMIN_CREATE.name(),ADMIN_READ.name(),ADMIN_DELETE.name(),ADMIN_PUT.name())
-                                .requestMatchers(HttpMethod.GET,"/file/fileSystem/**").hasAnyAuthority(ADMIN_CREATE.name(),ADMIN_READ.name(),ADMIN_DELETE.name(),ADMIN_PUT.name())
+                                .requestMatchers(HttpMethod.POST,"/file/**").hasAnyAuthority(ADMIN_CREATE.name(),ADMIN_READ.name(),ADMIN_DELETE.name(),ADMIN_PUT.name())
+                                .requestMatchers(HttpMethod.GET,"/file/**").hasAnyAuthority(ADMIN_CREATE.name(),ADMIN_READ.name(),ADMIN_DELETE.name(),ADMIN_PUT.name(),USER_CREATE.name(),USER_READ.name(),USER_DELETE.name(), USER_PATCH.name(), USER_UPDATE.name())
                                 .requestMatchers(HttpMethod.DELETE,"/fileSystem/delete/**").hasAuthority(ADMIN_DELETE.name())
-                                .requestMatchers(HttpMethod.GET, "/file/fileSystem/uploadedFiles/**").hasAnyRole(Roles.USER.name(), Roles.ADMIN.name())
+                                .requestMatchers(HttpMethod.GET, "/file/**").hasAnyRole(Roles.USER.name(), Roles.ADMIN.name())
 
 
                                 .requestMatchers("/user/**").hasAnyRole(Roles.ADMIN.name(),Roles.USER.name())
