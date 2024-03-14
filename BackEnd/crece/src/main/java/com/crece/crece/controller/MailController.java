@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 
 @RestController
 @RequestMapping("/mail")
@@ -25,7 +26,7 @@ public class MailController {
         return "Successfully sent the mail";
     }
     @PostMapping("/sendAttach")
-    public String sendMailAttach(@RequestBody MailRequest mailRequest) throws MessagingException, UnsupportedEncodingException {
+    public String sendMailAttach(@RequestBody MailRequest mailRequest) throws MessagingException, UnsupportedEncodingException, MalformedURLException {
         mailService.sendMailAttach(mailRequest.getMails(), mailRequest.getMailStructure(), mailRequest.getFilePath());
         return "Successfully sent the mail";
     }

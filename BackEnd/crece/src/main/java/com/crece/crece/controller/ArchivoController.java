@@ -3,10 +3,7 @@ package com.crece.crece.controller;
 import com.crece.crece.model.Archivo;
 import com.crece.crece.model.MailStructure;
 import com.crece.crece.model.Usuario;
-import com.crece.crece.model.dto.ArchivoDTO;
-import com.crece.crece.model.dto.ArchivoYEdificioDTO;
-import com.crece.crece.model.dto.GetEdificioListDto;
-import com.crece.crece.model.dto.GetUsuarioDTO;
+import com.crece.crece.model.dto.*;
 import com.crece.crece.service.ArchivoService;
 import com.crece.crece.service.EdificioService;
 import com.crece.crece.service.MailService;
@@ -22,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -44,35 +43,33 @@ public class ArchivoController {
     private UsuarioService usuarioService;
 
     @CrossOrigin(origins = "*")
-    @PostMapping("/fileSystem/{edificioId}/{categoria}/{destinatario}/{alias}")
-    public ResponseEntity<?> uploadImageToFIleSystem(@RequestParam("image") MultipartFile file,
-                                                     @PathVariable Long edificioId,
-                                                     @PathVariable String categoria,
-                                                     @PathVariable String destinatario,
-                                                     @PathVariable String alias) throws IOException {
-        String uploadedFile = service.uploadImageToFileSystem(file, edificioId, categoria, destinatario,alias);
+    @PostMapping
+    public ResponseEntity<?> uploadImageToFIleSystem(@RequestBody NuevoArchivoDTO nuevoArchivoDTO) throws IOException {
+
+
+        service.uploadImageToFileSystem(nuevoArchivoDTO);
 
         // Crear un objeto MailStructure
         MailStructure mailStructure = new MailStructure();
-        mailStructure.setSubject(categoria + ": Nueva Comunicación");
+        mailStructure.setSubject(nuevoArchivoDTO.getCategoria() + ": Nueva Comunicación");
         mailStructure.setMessage("Mensaje del correo");
 
         // Supongamos también que tienes una lista de destinatarios (mails)
-        List<String> mails = usuarioService.getEmailsPorEdificioSinTipo(edificioId);
-
+        List<String> mails = usuarioService.getEmailsPorEdificioSinTipo(nuevoArchivoDTO.getEdificioId());
+        System.out.println(mails);
         // Ahora puedes llamar al método sendMailAttach de mailService de forma asíncrona
-        CompletableFuture.runAsync(() -> sendMailAsync(mails, mailStructure, uploadedFile));
+        CompletableFuture.runAsync(() -> sendMailAsync(mails, mailStructure, nuevoArchivoDTO.getFilePath()));
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(uploadedFile);
+                .body(nuevoArchivoDTO);
     }
 
     @Async
-    private CompletableFuture<Void> sendMailAsync(List<String> mails, MailStructure mailStructure, String uploadedFile) {
+    private CompletableFuture<Void> sendMailAsync(List<String> mails, MailStructure mailStructure, String fileURL) {
         try {
-            mailService.sendMailAttach(mails, mailStructure, uploadedFile);
+            mailService.sendMailAttach(mails, mailStructure, fileURL);
             System.out.println("Correo enviado después de cargar el archivo.");
-        } catch (MessagingException | UnsupportedEncodingException e) {
+        } catch (MessagingException | UnsupportedEncodingException | MalformedURLException e) {
             e.printStackTrace();
             // Manejar la excepción si es necesario
         }
@@ -94,10 +91,10 @@ public class ArchivoController {
                     .body("Error al procesar la solicitud");
         }
     }*/
-    @GetMapping("/fileSystem/uploadedFiles/{id}")
+/*    @GetMapping("/fileSystem/uploadedFiles/{id}")
     public String getNombrePorID(@PathVariable Long id){
         return service.obtenerNombrePorId(id);
-    }
+    }*/
 
     @GetMapping("/fileSystem/all")
     public ResponseEntity<?> getAllFiles() {
@@ -113,7 +110,7 @@ public class ArchivoController {
                 .body("Archivo borrado");
     }
 
-    @GetMapping("/fileSystem/archivosPorEdificio/{edificioId}")
+   /* @GetMapping("/fileSystem/archivosPorEdificio/{edificioId}")
     public ResponseEntity<?> getArchivosPorEdificio(@PathVariable Long edificioId) {
         List<ArchivoDTO> archivos = service.getArchivosPorEdificio(edificioId);
         return ResponseEntity.status(HttpStatus.OK).body(archivos);
@@ -135,6 +132,6 @@ public class ArchivoController {
     public ResponseEntity<?> getArchivosOrdenadosPorFecha() {
         List<ArchivoDTO> archivos = service.getArchivosOrdenadosPorFecha();
         return ResponseEntity.status(HttpStatus.OK).body(archivos);
-    }
+    }*/
 
 }

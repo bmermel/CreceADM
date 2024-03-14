@@ -21,16 +21,12 @@ public class Archivo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String name;
-    private String type;
     private String filePath;
-
     private LocalDate fechaCarga;
-    private String destinatario;
+
     private String alias;
-
-
+    private String categoria;
+    private String descripcion;
     @JsonIgnore
 
     @JoinColumn(name = "edificio_id")

@@ -8,16 +8,16 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ArchivoRepository extends JpaRepository<Archivo, Long> {
-    Optional<Archivo> findByName(String fileName);
+    //Optional<Archivo> findByName(String fileName);
     List<Archivo> findAllByFechaCargaBetween(LocalDate fechaInicio, LocalDate fechaFin);
     List<Archivo> findAllByOrderByFechaCargaAsc();
     List<Archivo> findAllByOrderByFechaCargaDesc();
     void deleteById(Long id);
 
 
-    List<Archivo> findByNameContainingIgnoreCase(String nombre);
+    //List<Archivo> findByNameContainingIgnoreCase(String nombre);
 
-    List<Archivo> findByType(String categoria);
+    //List<Archivo> findByType(String categoria);
 
     List<Archivo> findByEdificio_Id(Long edificioId);
 }

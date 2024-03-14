@@ -5,6 +5,7 @@ import com.crece.crece.model.MailStructure;
 import com.crece.crece.model.MailTemplate;
 import com.crece.crece.model.Novedades;
 import com.crece.crece.model.dto.NovedadesDTO;
+import jakarta.activation.URLDataSource;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -42,21 +45,24 @@ public class MailService {
             mailSender.send(simpleMailMessage);
         }
     }
-    public void sendMailAttach(List<String> mails, MailStructure mailStructure,String file) throws MessagingException, UnsupportedEncodingException {
+    public void sendMailAttach(List<String> mails, MailStructure mailStructure, String fileURL) throws MessagingException, UnsupportedEncodingException, MalformedURLException {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,true);
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+        URLDataSource dataSource = new URLDataSource(new URL(fileURL));
 
+        for (String mail : mails) {
+            // Crear un URLDataSource desde el enlace del archivo
 
-        for (String mail : mails){
-            FileSystemResource fileSystemResource = new FileSystemResource(new File(file));
-            helper.setFrom(fromMail,"Administración Crece");
+            helper.setFrom(fromMail, "Administración Crece");
             helper.setTo(mail);
-            helper.setText(MailTemplate.generateMail(),true);
+            helper.setText(MailTemplate.generateMail(), true);
             helper.setSubject(mailStructure.getSubject());
-            helper.addAttachment(Objects.requireNonNull(fileSystemResource.getFilename()),fileSystemResource);
-            mailSender.send(mimeMessage);
-            System.out.println("mail enviado con attach");
 
+            // Adjuntar el archivo desde el enlace
+            helper.addAttachment(dataSource.getName(), dataSource);
+
+            mailSender.send(mimeMessage);
+            System.out.println("Correo enviado con adjunto");
         }
     }
     public void sendMailWithoutAttach(List<String> mails, MailStructure mailStructure, Novedades novedad) throws MessagingException, UnsupportedEncodingException {

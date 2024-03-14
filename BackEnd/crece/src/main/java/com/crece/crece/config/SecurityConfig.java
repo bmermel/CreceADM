@@ -42,8 +42,8 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET,"/novedades/**").hasAnyAuthority(ADMIN_READ.name(),USER_READ.name())
                                 .requestMatchers(HttpMethod.DELETE,"/novedades/**").hasAnyAuthority(ADMIN_DELETE.name())
 
-                                .requestMatchers("/file/fileSystem/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/file/fileSystem/uploadedFiles/**").hasAnyRole(Roles.USER.name(), Roles.ADMIN.name())
+                                .requestMatchers("/file/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/file/fileSystem/**").hasAnyRole(Roles.USER.name(), Roles.ADMIN.name())
 
                                 .requestMatchers(HttpMethod.POST,"/file/fileSystem/**").hasAnyAuthority(ADMIN_CREATE.name(),ADMIN_READ.name(),ADMIN_DELETE.name(),ADMIN_PUT.name())
                                 .requestMatchers(HttpMethod.GET,"/file/fileSystem/**").hasAnyAuthority(ADMIN_CREATE.name(),ADMIN_READ.name(),ADMIN_DELETE.name(),ADMIN_PUT.name())
@@ -58,7 +58,9 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PATCH,"/user/**").hasAnyAuthority(ADMIN_PATCH.name())
                                 .requestMatchers(HttpMethod.PUT,"/user/**").hasAnyAuthority(ADMIN_PUT.name())
 
-                                .requestMatchers("/edificio").permitAll()
+                                //.requestMatchers("/edificio/**").permitAll()
+                                .requestMatchers("/edificio/**").permitAll()
+
 /*                                .requestMatchers("/edificio/**").hasAnyRole(Roles.ADMIN.name(),Roles.USER.name())
 
                                 .requestMatchers(HttpMethod.GET,"/edificio/**").hasAnyAuthority(ADMIN_READ.name(),USER_READ.name())
