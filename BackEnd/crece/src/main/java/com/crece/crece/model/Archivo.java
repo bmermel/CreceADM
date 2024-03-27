@@ -27,6 +27,8 @@ public class Archivo {
     private String alias;
     private String categoria;
     private String descripcion;
+
+    private String tipoUsuario;
     @JsonIgnore
 
     @JoinColumn(name = "edificio_id")

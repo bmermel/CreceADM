@@ -34,11 +34,11 @@ public class Edificio {
 
 
     @JsonIgnore
-    @OneToMany (mappedBy = "edificio")
+    @OneToMany (mappedBy = "edificio", cascade = CascadeType.ALL)
     private List<Usuario> usuarios;
 
     //@JsonIgnore
-    @OneToMany (mappedBy = "edificio")
+    @OneToMany (mappedBy = "edificio", cascade = CascadeType.ALL)
     private List<Archivo> archivoList;
 }
 

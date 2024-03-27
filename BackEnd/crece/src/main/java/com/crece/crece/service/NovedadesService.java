@@ -12,6 +12,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -106,7 +107,7 @@ public class NovedadesService {
             throw new NoSuchElementException("No se encontró la novedad con ID: " + id);
         }
     }
-
+    @Cacheable(value = "novedadesCache")
     public List<NovedadesDTO> obtenerTodasLasNovedades() {
         List<Novedades> novedades = repository.findAll();
         return novedades.stream()

@@ -23,6 +23,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -44,14 +46,16 @@ public class AuthService {
     public AuthResponse login(LoginRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
-        UserDetails usuario = usuarioRepository.findByEmail(request.getUsername()).orElseThrow();
-        String token = jwtService.getToken(usuario);
+        Usuario usuario = (Usuario) usuarioRepository.findByEmail(request.getUsername()).orElseThrow();
+        usuario.setUltimoAcceso(LocalDateTime.now());
+        usuarioRepository.save(usuario);
+
+        UserDetails userDetails = usuario;
+        String token = jwtService.getToken(userDetails);
 
         return AuthResponse.builder()
                 .token(token)
                 .build();
-
-
     }
 
 

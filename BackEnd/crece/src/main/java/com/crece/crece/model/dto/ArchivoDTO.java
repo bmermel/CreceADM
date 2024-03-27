@@ -15,4 +15,6 @@ import java.time.LocalDate;
         private String destinatario;
         private String filePath;
         private String alias;
+
+        private String tipoUsuario;
     }

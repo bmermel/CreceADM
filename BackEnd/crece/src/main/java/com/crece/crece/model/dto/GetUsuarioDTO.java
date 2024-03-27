@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @RequiredArgsConstructor
@@ -26,6 +28,6 @@ public class GetUsuarioDTO {
     private String unidadFuncional;
     private Boolean habilitado;
 
-
+    private LocalDateTime ultimoAcceso;
 
 }

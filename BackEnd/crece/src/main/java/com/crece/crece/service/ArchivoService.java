@@ -10,6 +10,7 @@ import com.crece.crece.repository.ArchivoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cglib.core.Local;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -57,6 +58,8 @@ public class ArchivoService{
       return nuevoArchivoDTO;
     }
 
+    @Cacheable(value = "archivosCache")
+
     public List<ArchivoYEdificioDTO> getAllArchivos() {
         List<Archivo> archivos = fileDataRepository.findAll();
         List<ArchivoYEdificioDTO> archivoDTOs = new ArrayList<>();
@@ -69,7 +72,7 @@ public class ArchivoService{
             archivoDTO.setFilePath(archivo.getFilePath());
             archivoDTO.setAlias(archivo.getAlias());
             archivoDTO.setDescripcion(archivo.getDescripcion());
-
+            archivoDTO.setTipoUsuario(archivo.getTipoUsuario());
             // Verificar si el campo 'edificio' es null y manejarlo apropiadamente
             if (archivo.getEdificio() != null) {
                 archivoDTO.setEdificioNombre(archivo.getEdificio().getNombre());

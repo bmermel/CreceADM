@@ -11,4 +11,7 @@ public class NuevoArchivoDTO {
     private String filePath;
     private String alias;
     private Long edificioId;
+
+    private String tipoUsuario;
+
 }

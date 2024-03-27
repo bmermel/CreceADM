@@ -19,10 +19,14 @@ public class CorsConfig {
         /*config.addAllowedOrigin("*");*/
         config.addAllowedOrigin("http://127.0.0.1:5500");
         config.addAllowedOrigin("217.196.60.243:5173");
+        config.addAllowedOrigin("217.196.60.243:5174");
         config.addAllowedOrigin("217.196.60.243:8080");
         config.addAllowedOrigin("http://localhost:5173");
+        config.addAllowedOrigin("http://localhost:5174");
+        config.addAllowedOrigin("https://localhost:5173");
+        config.addAllowedOrigin("https://localhost:5174");
 
-        config.setAllowedOrigins(List.of("http://217.196.60.243:5173", "http://localhost:5173"));
+        config.setAllowedOrigins(List.of("http://217.196.60.243:5173", "http://localhost:5173","http://217.196.60.243:5174", "http://localhost:5174", "https://217.196.60.243:5173", "https://localhost:5173","https://217.196.60.243:5174", "https://localhost:5174"));
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.addExposedHeader("*");

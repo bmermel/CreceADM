@@ -16,4 +16,6 @@ import java.time.LocalDate;
        private String filePath;
        private String alias;
        private String edificioNombre;
-   }
+        private String tipoUsuario;
+
+}

@@ -8,6 +8,7 @@ import com.crece.crece.model.dto.GetEdificioListDtoCompleto;
 import com.crece.crece.repository.IEdificioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -53,6 +54,7 @@ public class EdificioService {
         }
         return edificioListDtos;
     }
+    @Cacheable(value = "edificiosCache")
 
     public List<GetEdificioListDtoCompleto> getEdificiosCompletos (){
         List<Edificio> edificioList = edificioRepository.findAll();

@@ -27,7 +27,7 @@ public class Novedades {
 
 
     @JoinColumn(name = "edificio_id")
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Edificio edificio;
 
 }

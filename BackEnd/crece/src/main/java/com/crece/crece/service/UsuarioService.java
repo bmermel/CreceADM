@@ -12,6 +12,7 @@ import com.crece.crece.repository.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -119,6 +120,8 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
 }
 
+
+    @Cacheable(value = "usuariosCache")
     public List<GetUsuarioDTO> getUsuarios() {
         List<Usuario> usuarioList = usuarioRepository.findAll();
         List<GetUsuarioDTO> usuarioDTOList = new ArrayList<>();
@@ -133,6 +136,7 @@ public class UsuarioService {
             user.setHabilitado(usuario.getHabilitado());
             user.setUnidadFuncional(usuario.getUnidadFuncional());
             user.setTelefono(usuario.getTelefono());
+            user.setUltimoAcceso(usuario.getUltimoAcceso());
 
             if (usuario.getEdificio() != null) {
                 user.setEdificio(usuario.getEdificio().getNombre());

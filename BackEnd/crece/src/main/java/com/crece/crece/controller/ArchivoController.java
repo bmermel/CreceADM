@@ -9,6 +9,7 @@ import com.crece.crece.service.EdificioService;
 import com.crece.crece.service.MailService;
 import com.crece.crece.service.UsuarioService;
 import jakarta.mail.MessagingException;
+import jakarta.persistence.Cacheable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Async;
@@ -95,7 +96,6 @@ public class ArchivoController {
     public String getNombrePorID(@PathVariable Long id){
         return service.obtenerNombrePorId(id);
     }*/
-
     @GetMapping("/fileSystem/all")
     public ResponseEntity<?> getAllFiles() {
         List<ArchivoYEdificioDTO> archivos = service.getAllArchivos();  // Necesitas implementar este método en ArchivoService
