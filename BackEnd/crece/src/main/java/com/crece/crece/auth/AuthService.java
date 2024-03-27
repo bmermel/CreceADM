@@ -24,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -47,7 +48,10 @@ public class AuthService {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
         Usuario usuario = (Usuario) usuarioRepository.findByEmail(request.getUsername()).orElseThrow();
-        usuario.setUltimoAcceso(LocalDateTime.now());
+
+        // Establecer el último acceso y formatearlo a dia mes año horario sin segundos
+        usuario.setUltimoAcceso(LocalDateTime.parse(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd,MM,yyyy HH,mm"))));
+
         usuarioRepository.save(usuario);
 
         UserDetails userDetails = usuario;
