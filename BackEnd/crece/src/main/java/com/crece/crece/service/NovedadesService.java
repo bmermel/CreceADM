@@ -95,7 +95,7 @@ public class NovedadesService {
         }
     }
 
-    public void editarNovedad(Long id, NovedadesDTO novedadesDTO) {
+    public void editarNovedad(Long id, NovedadesSinIDDTO novedadesDTO) {
         Optional<Novedades> novedadOptional = repository.findById(id);
 
         if (novedadOptional.isPresent()) {

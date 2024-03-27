@@ -36,7 +36,7 @@ public class NovedadesController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editarNovedad(@PathVariable Long id, @RequestBody NovedadesDTO novedadesDTO){
+    public ResponseEntity<?> editarNovedad(@PathVariable Long id, @RequestBody NovedadesSinIDDTO novedadesDTO){
         try {
             service.editarNovedad(id, novedadesDTO);
             return new ResponseEntity<>(HttpStatus.OK);
