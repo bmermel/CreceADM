@@ -100,10 +100,12 @@ public class NovedadesService {
 
         if (novedadOptional.isPresent()) {
             Novedades novedadExistente = novedadOptional.get();
-            modelMapper.map(novedadesDTO, novedadExistente);
+            novedadExistente.setTitulo(novedadesDTO.getTitulo());
+            novedadExistente.setTexto(novedadesDTO.getTexto());
+            novedadExistente.setFecha(novedadesDTO.getFecha());
+            novedadExistente.setSendEmail(novedadesDTO.getSendEmail());
             repository.save(novedadExistente);
         } else {
-            // Manejar la situación en la que no se encuentra la novedad con el id proporcionado
             throw new NoSuchElementException("No se encontró la novedad con ID: " + id);
         }
     }
