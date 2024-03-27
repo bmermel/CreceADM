@@ -60,6 +60,7 @@ public class SecurityConfig {
 
                                 //.requestMatchers("/edificio/**").permitAll()
                                 .requestMatchers("/edificio/**").permitAll()
+                                .requestMatchers("/mail/**").permitAll()
 
 /*                                .requestMatchers("/edificio/**").hasAnyRole(Roles.ADMIN.name(),Roles.USER.name())
 

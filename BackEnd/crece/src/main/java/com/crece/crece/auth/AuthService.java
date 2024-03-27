@@ -24,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 @Service
@@ -49,14 +50,30 @@ public class AuthService {
 
         Usuario usuario = (Usuario) usuarioRepository.findByEmail(request.getUsername()).orElseThrow();
 
-        // Establecer el último acceso y formatearlo a dia mes año horario sin segundos
-        usuario.setUltimoAcceso(LocalDateTime.parse(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd,MM,yyyy HH,mm"))));
+        // Obtener la zona horaria deseada
+        ZoneId zoneId = ZoneId.of("GMT-3");
 
+        // Obtener la fecha y hora actual en la zona horaria deseada
+        LocalDateTime currentDateTime = LocalDateTime.now(zoneId);
+
+        // Formatear la fecha y hora actual con el patrón personalizado
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd,MM,uuuu HH,mm");
+        String formattedDateTime = currentDateTime.format(formatter);
+
+        // Analizar la fecha y hora formateada en un LocalDateTime
+        LocalDateTime parsedDateTime = LocalDateTime.parse(formattedDateTime, formatter);
+
+        // Establecer el último acceso
+        usuario.setUltimoAcceso(parsedDateTime);
+        System.out.println(parsedDateTime);
+        // Guardar el usuario actualizado en el repositorio
         usuarioRepository.save(usuario);
 
+        // Generar el token JWT
         UserDetails userDetails = usuario;
         String token = jwtService.getToken(userDetails);
 
+        // Construir y devolver la respuesta de autenticación
         return AuthResponse.builder()
                 .token(token)
                 .build();
