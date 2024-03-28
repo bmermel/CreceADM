@@ -84,11 +84,11 @@ public class UsuarioController {
             // Opcional: Enviar un correo de confirmación
             // mailService.sendPasswordChangeConfirmation(email);
 
-            return ResponseEntity.ok("Password changed successfully");
+            return ResponseEntity.ok("Contraseña cambiada correctamente");
         } catch (Exception e) {
             // Manejar cualquier error que pueda ocurrir durante el cambio de contraseña
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to change password");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Falló al cambiar la contrasena");
         }
 }
     @GetMapping("/rol/{email}")

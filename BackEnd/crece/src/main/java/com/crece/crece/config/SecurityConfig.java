@@ -50,6 +50,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE,"/fileSystem/delete/**").hasAuthority(ADMIN_DELETE.name())
                                 .requestMatchers(HttpMethod.GET, "/file/**").hasAnyRole(Roles.USER.name(), Roles.ADMIN.name())
 
+                                .requestMatchers("/user/change-password").permitAll()
 
                                 .requestMatchers("/user/**").hasAnyRole(Roles.ADMIN.name(),Roles.USER.name())
                                 .requestMatchers(HttpMethod.GET,"/user/**").hasAnyAuthority(ADMIN_READ.name(),USER_READ.name())
@@ -60,6 +61,7 @@ public class SecurityConfig {
 
                                 //.requestMatchers("/edificio/**").permitAll()
                                 .requestMatchers("/edificio/**").permitAll()
+
                                 .requestMatchers("/mail/**").permitAll()
 
 /*                                .requestMatchers("/edificio/**").hasAnyRole(Roles.ADMIN.name(),Roles.USER.name())
